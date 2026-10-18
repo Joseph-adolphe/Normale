@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ScaffTrack1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewsAuth="clr-namespace:ScaffTrack1.Views.Auth"
+    xmlns:viewsDashboard="clr-namespace:ScaffTrack1.Views.Dashboard"
+    xmlns:viewsChantiers="clr-namespace:ScaffTrack1.Views.Chantiers"
+    xmlns:viewsMateriel="clr-namespace:ScaffTrack1.Views.Materiel"
+    Title="ScaffTrack">
+
+    <!-- 1. Page de démarrage : Authentification / Connexion -->
+    <ShellContent
+        Title="Connexion"
+        ContentTemplate="{DataTemplate viewsAuth:LoginPage}"
+        Route="LoginPage" />
+
+    <!-- 2. Application Principale (Barre d'onglets) -->
+    <TabBar Route="main">
+        <Tab Title="Dashboard" Icon="home_icon.png">
+            <ShellContent
+                Title="Dashboard"
+                ContentTemplate="{DataTemplate viewsDashboard:DashboardPage}"
+                Route="DashboardPage" />
+        </Tab>
+
+        <Tab Title="Matériel" Icon="box_icon.png">
+            <ShellContent
+                Title="Matériel"
+                ContentTemplate="{DataTemplate viewsMateriel:MaterielListPage}"
+                Route="MaterielListPage" />
+        </Tab>
+
+        <Tab Title="Chantiers" Icon="crane_icon.png">
+            <ShellContent
+                Title="Chantiers"
+                ContentTemplate="{DataTemplate viewsChantiers:ChantierListPage}"
+                Route="ChantierListPage" />
+        </Tab>
+    </TabBar>
+
+</Shell>

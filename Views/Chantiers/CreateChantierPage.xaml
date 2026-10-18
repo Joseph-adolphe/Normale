@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Chantiers"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Chantiers.CreateChantierPage"
+             x:DataType="vm:CreateChantierViewModel"
+             Title="Nouveau Chantier"
+             BackgroundColor="#F4F6F9">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Carte Informations Générales -->
+            <Border StrokeShape="RoundRectangle 14"
+                    BackgroundColor="White"
+                    Padding="18"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Informations Générales" 
+                           FontAttributes="Bold" 
+                           FontSize="16" 
+                           TextColor="#1E293B" />
+
+                    <!-- Nom du chantier -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nom du chantier *" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Entry Text="{Binding Nom}" Placeholder="Ex: Résidence Les Palmiers R+6" TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Client (Entreprise BTP) -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Client / Entreprise BTP *" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Picker ItemsSource="{Binding Clients}" 
+                                    ItemDisplayBinding="{Binding NomEntreprise}"
+                                    SelectedItem="{Binding SelectedClient}"
+                                    Title="Sélectionner un client" 
+                                    TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Adresse -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Adresse du site" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Entry Text="{Binding Adresse}" Placeholder="Ex: Boulevard de la Liberté, Akwa" TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Ville -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Ville" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Entry Text="{Binding Ville}" Placeholder="Ex: Douala, Yaoundé..." TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Carte Calendrier & Planning -->
+            <Border StrokeShape="RoundRectangle 14"
+                    BackgroundColor="White"
+                    Padding="18"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Planning Prévu" 
+                           FontAttributes="Bold" 
+                           FontSize="16" 
+                           TextColor="#1E293B" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                        <!-- Date début -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Date de début" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                                <DatePicker Date="{Binding DateDebut}" Format="dd/MM/yyyy" TextColor="#0F172A" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Date fin prévue -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="6">
+                            <Label Text="Fin estimée" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                                <DatePicker Date="{Binding DateFinPrevue}" Format="dd/MM/yyyy" TextColor="#0F172A" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Carte Tarification FCFA -->
+            <Border StrokeShape="RoundRectangle 14"
+                    BackgroundColor="White"
+                    Padding="18"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Finances &amp; Caution (FCFA)" 
+                           FontAttributes="Bold" 
+                           FontSize="16" 
+                           TextColor="#1E293B" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                        <!-- Loyer prévu FCFA -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Loyer Prévu (FCFA)" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                                <Entry Text="{Binding MontantLocationFCFA}" Keyboard="Numeric" TextColor="#EA580C" FontAttributes="Bold" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Caution FCFA -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="6">
+                            <Label Text="Caution (FCFA)" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                                <Entry Text="{Binding MontantCautionFCFA}" Keyboard="Numeric" TextColor="#0F172A" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Remarques -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Instructions &amp; Spécifications" FontAttributes="Bold" FontSize="13" TextColor="#475569" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,6">
+                            <Editor Text="{Binding Remarques}" HeightRequest="70" Placeholder="Échafaudages de façade, surface estimée..." TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Bouton Créer le chantier -->
+            <Button Text="Enregistrer le Chantier" 
+                    Command="{Binding SaveChantierCommand}"
+                    BackgroundColor="#EA580C" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    FontSize="16" 
+                    CornerRadius="10" 
+                    HeightRequest="52" 
+                    Margin="0,6,0,20" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

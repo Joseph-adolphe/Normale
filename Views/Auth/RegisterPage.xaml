@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Auth"
+             x:Class="ScaffTrack1.Views.Auth.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#FFFFFF">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,35,24,24" Spacing="18">
+
+            <!-- En-tête -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Créer un compte" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       TextColor="#0F172A" />
+                <Label Text="Rejoignez la plateforme de gestion de parc ScaffTrack" 
+                       FontSize="13" 
+                       TextColor="#64748B" />
+            </VerticalStackLayout>
+
+            <!-- Message d'erreur -->
+            <Border StrokeShape="RoundRectangle 8"
+                    BackgroundColor="#FEE2E2"
+                    Stroke="#FCA5A5"
+                    Padding="12,8"
+                    IsVisible="{Binding HasErrorMessage}">
+                <Label Text="{Binding MessageErreur}" 
+                       TextColor="#DC2626" 
+                       FontSize="12" />
+            </Border>
+
+            <!-- Formulaire -->
+            <VerticalStackLayout Spacing="12">
+                <!-- Nom & Prénom -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Nom *" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Entry Text="{Binding Nom}" Placeholder="Ex: Joseph" TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Prénom" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                        <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                            <Entry Text="{Binding Prenom}" Placeholder="Ex: Bayihe" TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Email -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Adresse Email *" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                        <Entry Text="{Binding Email}" Placeholder="nom@entreprise.com" Keyboard="Email" TextColor="#0F172A" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Mot de passe -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Mot de passe *" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                        <Entry Text="{Binding MotDePasse}" Placeholder="••••••••" IsPassword="True" TextColor="#0F172A" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Téléphone -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Téléphone" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                        <Entry Text="{Binding Telephone}" Placeholder="+237 6..." Keyboard="Telephone" TextColor="#0F172A" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Rôle dans l'entreprise -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Rôle dans l'entreprise *" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                        <Picker ItemsSource="{Binding RolesDisponibles}"
+                                SelectedItem="{Binding Role}"
+                                Title="Choisir votre rôle"
+                                TextColor="#0F172A" />
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Bouton Inscription -->
+            <Button Text="Créer mon compte" 
+                    Command="{Binding RegisterCommand}"
+                    BackgroundColor="#EA580C" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    FontSize="16" 
+                    CornerRadius="10" 
+                    HeightRequest="50" 
+                    Margin="0,8,0,0" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}" 
+                               Color="#EA580C" 
+                               HorizontalOptions="Center" />
+
+            <!-- Lien retour vers connexion -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6" Margin="0,10,0,10">
+                <Label Text="Déjà un compte ?" TextColor="#64748B" FontSize="13" />
+                <Label Text="Se connecter" 
+                       TextColor="#EA580C" 
+                       FontAttributes="Bold" 
+                       FontSize="13">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
