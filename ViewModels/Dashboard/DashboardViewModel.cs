@@ -18,7 +18,20 @@ public partial class DashboardViewModel : BaseViewModel
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasAlerts))]
+    [NotifyPropertyChangedFor(nameof(HasRetards))]
+    [NotifyPropertyChangedFor(nameof(ResumeParc))]
+    [NotifyPropertyChangedFor(nameof(LargeurDisponible))]
+    [NotifyPropertyChangedFor(nameof(LargeurSurChantier))]
+    [NotifyPropertyChangedFor(nameof(LargeurMaintenance))]
     private DashboardStatsDto stats = new();
+
+    public bool HasRetards => Stats.RetoursEnAttente > 0;
+    public string ResumeParc => $"{Stats.TauxDisponibilite:N0} % disponibles • {Stats.TauxOccupation:N0} % sortis • {Stats.TauxMaintenance:N0} % en maintenance";
+
+    // Proportions de la barre d'état du parc
+    public GridLength LargeurDisponible => new(Math.Max(Stats.UnitesDisponibles, 0), GridUnitType.Star);
+    public GridLength LargeurSurChantier => new(Math.Max(Stats.UnitesSurChantiers, 0), GridUnitType.Star);
+    public GridLength LargeurMaintenance => new(Math.Max(Stats.UnitesEnMaintenance, 0), GridUnitType.Star);
 
     [ObservableProperty]
     private ObservableCollection<Chantier> chantiersRecents = new();

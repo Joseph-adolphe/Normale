@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Profile"
+             x:Class="ScaffTrack1.Views.Profile.EditProfilePage"
+             x:DataType="vm:EditProfileViewModel"
+             Title="Modifier mon profil"
+             BackgroundColor="#F1F3F5">
+    <ScrollView>
+        <VerticalStackLayout Padding="18,16" Spacing="14">
+            <Label Text="Informations personnelles" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+            <Label Text="* Champs obligatoires" FontSize="11" TextColor="#586B84" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Prénom" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                        <Entry Text="{Binding Prenom}" Placeholder="Prénom" TextColor="#1B2734" />
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Nom *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                        <Entry Text="{Binding Nom}" Placeholder="Nom" TextColor="#1B2734" />
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Téléphone" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                    <Entry Text="{Binding Telephone}" Keyboard="Telephone" Placeholder="+237 6..." TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Adresse e-mail" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="#E4E8ED" Padding="10,0">
+                    <Entry Text="{Binding Email}" IsReadOnly="True" TextColor="#586B84" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Label Text="Changer le mot de passe" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" Margin="0,6,0,0" />
+            <Label Text="Laissez ces champs vides pour conserver le mot de passe actuel." FontSize="11" TextColor="#586B84" />
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Mot de passe actuel" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                    <Entry Text="{Binding MotDePasseActuel}" IsPassword="True" TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Nouveau mot de passe" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                    <Entry Text="{Binding NouveauMotDePasse}" IsPassword="True" Placeholder="6 caractères minimum" TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Confirmer le nouveau mot de passe" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 9" BackgroundColor="White" Padding="10,0">
+                    <Entry Text="{Binding ConfirmationMotDePasse}" IsPassword="True" TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Border IsVisible="{Binding HasError}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 8"
+                    BackgroundColor="#FDECEE"
+                    Padding="10">
+                <Label Text="{Binding MessageErreur}" FontSize="11" TextColor="#B4232C" />
+            </Border>
+
+            <Button Text="Enregistrer"
+                    Command="{Binding SaveProfilCommand}"
+                    IsEnabled="{Binding IsNotBusy}"
+                    BackgroundColor="#DE4A0A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="9"
+                    HeightRequest="48" />
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="#DE4A0A" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

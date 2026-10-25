@@ -13,6 +13,13 @@ public class AuthStateService
     public string? Email { get; private set; }
     public Guid? UtilisateurId { get; private set; }
 
+    /// <summary>Initiales affichées dans l'avatar (ex. « JB »).</summary>
+    public string Initiales => string.Concat((NomUtilisateur ?? string.Empty)
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Where(mot => char.IsLetter(mot[0]))
+            .Take(2)
+            .Select(mot => char.ToUpperInvariant(mot[0])));
+
     // ─── Événement pour notifier les pages d'un changement de session ─
     public event Action? SessionChanged;
 
@@ -25,6 +32,13 @@ public class AuthStateService
         Email = email;
         UtilisateurId = id;
         IsAuthenticated = true;
+        SessionChanged?.Invoke();
+    }
+
+    /// <summary>Appeler après la modification du profil.</summary>
+    public void UpdateNom(string nom)
+    {
+        NomUtilisateur = nom;
         SessionChanged?.Invoke();
     }
 

@@ -2,20 +2,25 @@ namespace ScaffTrack.Shared.DTOs;
 
 public class DashboardStatsDto
 {
-    public int TotalUnites { get; set; } = 1240;
-    public int UnitesSurChantiers { get; set; } = 780;
-    public int UnitesDisponibles { get; set; } = 420;
-    public int UnitesEnMaintenance { get; set; } = 40;
+    public int TotalUnites { get; set; }
+    public int UnitesSurChantiers { get; set; }
+    public int UnitesDisponibles { get; set; }
+    public int UnitesEnMaintenance { get; set; }
+    public int NombreCategories { get; set; }
 
-    public int ChantiersActifs { get; set; } = 8;
-    public int ChantiersEnAttente { get; set; } = 3;
-    public int RetoursEnAttente { get; set; } = 4;
-    public int AlertesNonResolues { get; set; } = 2;
+    public int ChantiersActifs { get; set; }
+    public int ChantiersEnAttente { get; set; }
+    public int RetoursEnAttente { get; set; }
+    public int AlertesNonResolues { get; set; }
 
-    public decimal ChiffreAffairesMoisFCFA { get; set; } = 4850000;
-    public decimal EncoursClientsFCFA { get; set; } = 1250000;
+    public decimal ChiffreAffairesMoisFCFA { get; set; }
+    public decimal EncoursClientsFCFA { get; set; }
 
-    public double TauxOccupation => TotalUnites > 0 
-        ? Math.Round((double)UnitesSurChantiers / TotalUnites * 100, 1) 
+    public double TauxOccupation => Pourcentage(UnitesSurChantiers);
+    public double TauxDisponibilite => Pourcentage(UnitesDisponibles);
+    public double TauxMaintenance => Pourcentage(UnitesEnMaintenance);
+
+    private double Pourcentage(int unites) => TotalUnites > 0
+        ? Math.Round((double)unites / TotalUnites * 100, 1)
         : 0;
 }

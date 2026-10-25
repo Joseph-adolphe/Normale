@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScaffTrack.Api.Data;
+using ScaffTrack.Shared.DTOs;
 using ScaffTrack.Shared.Models;
 
 namespace ScaffTrack.Api.Controllers;
@@ -92,6 +93,34 @@ public class ChantiersController : ControllerBase
             throw;
         }
 
+        return NoContent();
+    }
+
+    [HttpPut("{id:guid}/statut")]
+    public async Task<IActionResult> ChangerStatut(Guid id, ChangementStatutChantierDto changement)
+    {
+        var chantier = await _context.Chantiers.FindAsync(id);
+        if (chantier == null)
+            return NotFound(new { message = "Chantier introuvable." });
+
+        if (changement.Statut == StatutChantier.Termine)
+        {
+            var piecesSurChantier = await _context.LignesMouvement
+                .Where(l => l.MouvementStock!.ChantierId == id)
+                .SumAsync(l => l.MouvementStock!.Type == TypeMouvement.SortieChantier ? l.Quantite : -l.Quantite);
+
+            if (piecesSurChantier > 0)
+                return BadRequest(new { message = $"{piecesSurChantier} unités sont encore sur le chantier. Enregistrez leur restitution avant de le clôturer." });
+
+            chantier.DateFinReelle = DateTime.Today;
+        }
+        else
+        {
+            chantier.DateFinReelle = null;
+        }
+
+        chantier.Statut = changement.Statut;
+        await _context.SaveChangesAsync();
         return NoContent();
     }
 }

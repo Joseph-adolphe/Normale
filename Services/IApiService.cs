@@ -22,4 +22,7 @@ public interface IApiService
     Task<bool> AdjustMaterielStockAsync(Guid materielId, AjustementStockDto adjustment);
     Task<bool> CreateMouvementAsync(MouvementStock mouvement);
     Task<bool> ExtendLocationAsync(Guid mouvementId, DateTime dateRetourPrevue);
+    Task<(bool Succes, string Message)> ChangerStatutChantierAsync(Guid chantierId, StatutChantier statut);
+    Task<ProfilUtilisateurDto?> GetProfilAsync(Guid utilisateurId);
+    Task<(ProfilUtilisateurDto? Profil, string Message)> UpdateProfilAsync(Guid utilisateurId, UpdateProfilDto request);
 }

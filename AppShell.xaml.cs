@@ -47,7 +47,8 @@ namespace ScaffTrack1
             Routing.RegisterRoute(nameof(HistoriquePage), typeof(HistoriquePage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
             Routing.RegisterRoute(nameof(OfflineStatusPage), typeof(OfflineStatusPage));
-            Routing.RegisterRoute(nameof(PlusPage), typeof(PlusPage));
+            Routing.RegisterRoute(nameof(ClientsPage), typeof(ClientsPage));
+            Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
 
             // Garde de navigation — protège toutes les routes privées
             this.Navigating += OnShellNavigating;

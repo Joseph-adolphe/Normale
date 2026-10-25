@@ -83,4 +83,53 @@ public class AuthController : ControllerBase
             Token = "demo-jwt-token-scafftrack-" + Guid.NewGuid()
         });
     }
+
+    [HttpGet("profil/{id:guid}")]
+    public async Task<ActionResult<ProfilUtilisateurDto>> GetProfil(Guid id)
+    {
+        var user = await _context.Utilisateurs.FindAsync(id);
+        if (user == null)
+            return NotFound(new { message = "Utilisateur introuvable." });
+
+        return Ok(ToProfil(user));
+    }
+
+    [HttpPut("profil/{id:guid}")]
+    public async Task<ActionResult<ProfilUtilisateurDto>> UpdateProfil(Guid id, UpdateProfilDto request)
+    {
+        var user = await _context.Utilisateurs.FindAsync(id);
+        if (user == null)
+            return NotFound(new { message = "Utilisateur introuvable." });
+
+        if (string.IsNullOrWhiteSpace(request.Nom))
+            return BadRequest(new { message = "Le nom est obligatoire." });
+
+        if (!string.IsNullOrWhiteSpace(request.NouveauMotDePasse))
+        {
+            if (user.MotDePasseHash != request.MotDePasseActuel)
+                return BadRequest(new { message = "Le mot de passe actuel est incorrect." });
+
+            if (request.NouveauMotDePasse.Length < 6)
+                return BadRequest(new { message = "Le nouveau mot de passe doit contenir au moins 6 caractères." });
+
+            user.MotDePasseHash = request.NouveauMotDePasse;
+        }
+
+        user.Nom = request.Nom.Trim();
+        user.Prenom = request.Prenom.Trim();
+        user.Telephone = request.Telephone.Trim();
+        await _context.SaveChangesAsync();
+
+        return Ok(ToProfil(user));
+    }
+
+    private static ProfilUtilisateurDto ToProfil(Utilisateur user) => new()
+    {
+        Id = user.Id,
+        Nom = user.Nom,
+        Prenom = user.Prenom,
+        Email = user.Email,
+        Telephone = user.Telephone,
+        Role = user.Role
+    };
 }

@@ -10,7 +10,7 @@
         <VerticalStackLayout Padding="18,14" Spacing="12">
             <Grid ColumnDefinitions="46,*,Auto">
                 <Border WidthRequest="42" HeightRequest="42" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="#1B2C3A">
-                    <Label Text="{Binding NomUtilisateur, StringFormat='{0:0}'}" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                    <Label Text="{Binding Initiales}" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
                 </Border>
                 <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                     <Label Text="{Binding NomUtilisateur}" FontSize="16" FontAttributes="Bold" TextColor="#1B2734" />
@@ -31,8 +31,8 @@
             <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
                 <VerticalStackLayout Spacing="8">
                     <Label Text="Alertes et préférences" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
-                    <Grid ColumnDefinitions="*,Auto"><Label Text="Alerte de retard" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch IsToggled="True" OnColor="#DE4A0A" /></Grid>
-                    <Grid ColumnDefinitions="*,Auto"><Label Text="Rappel avant échéance" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch IsToggled="True" OnColor="#DE4A0A" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Alerte de retard" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch x:Name="AlerteRetardSwitch" Grid.Column="1" OnColor="#DE4A0A" Toggled="OnPreferenceToggled" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Rappel avant échéance" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch x:Name="RappelEcheanceSwitch" Grid.Column="1" OnColor="#DE4A0A" Toggled="OnPreferenceToggled" /></Grid>
                 </VerticalStackLayout>
             </Border>
 

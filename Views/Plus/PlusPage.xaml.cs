@@ -24,7 +24,7 @@ public partial class PlusPage : ContentPage
         await Shell.Current.GoToAsync(nameof(AlertesPage));
 
     private async void OnClientsTapped(object? sender, TappedEventArgs e) =>
-        await Shell.Current.GoToAsync("//main/plus/ClientsPage");
+        await Shell.Current.GoToAsync(nameof(ClientsPage));
 
     private async void OnHistoryTapped(object? sender, TappedEventArgs e) =>
         await Shell.Current.GoToAsync(nameof(HistoriquePage));

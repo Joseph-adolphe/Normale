@@ -20,28 +20,29 @@ public class DashboardController : ControllerBase
     [HttpGet("stats")]
     public async Task<ActionResult<DashboardStatsDto>> GetStats()
     {
-        var totalUnites = await _context.Materiels.SumAsync(m => m.QuantiteTotale);
-        var unitesSurChantiers = await _context.Materiels.SumAsync(m => m.QuantiteEnChantier);
-        var unitesDisponibles = await _context.Materiels.SumAsync(m => m.QuantiteDisponible);
-        var unitesEnMaintenance = await _context.Materiels.SumAsync(m => m.QuantiteEnMaintenance);
+        var debutMois = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
 
-        var chantiersActifs = await _context.Chantiers.CountAsync(c => c.Statut == StatutChantier.EnCours);
-        var chantiersEnAttente = await _context.Chantiers.CountAsync(c => c.Statut == StatutChantier.EnAttente);
-        var alertes = await _context.Alertes.CountAsync(a => !a.EstResolue);
-
-        var encours = await _context.Clients.SumAsync(c => c.SoldeEncoursFCFA);
+        // La date de retour prévue est calculée côté modèle : on filtre les retards en mémoire
+        var locationsActives = await _context.MouvementsStock
+            .Include(m => m.Chantier)
+            .Where(m => m.Type == TypeMouvement.SortieChantier && m.Chantier!.Statut != StatutChantier.Termine)
+            .ToListAsync();
 
         var stats = new DashboardStatsDto
         {
-            TotalUnites = totalUnites > 0 ? totalUnites : 1240,
-            UnitesSurChantiers = unitesSurChantiers > 0 ? unitesSurChantiers : 780,
-            UnitesDisponibles = unitesDisponibles > 0 ? unitesDisponibles : 420,
-            UnitesEnMaintenance = unitesEnMaintenance > 0 ? unitesEnMaintenance : 40,
-            ChantiersActifs = chantiersActifs > 0 ? chantiersActifs : 8,
-            ChantiersEnAttente = chantiersEnAttente > 0 ? chantiersEnAttente : 3,
-            AlertesNonResolues = alertes,
-            EncoursClientsFCFA = encours > 0 ? encours : 1250000,
-            ChiffreAffairesMoisFCFA = 4850000
+            TotalUnites = await _context.Materiels.SumAsync(m => m.QuantiteTotale),
+            UnitesSurChantiers = await _context.Materiels.SumAsync(m => m.QuantiteEnChantier),
+            UnitesDisponibles = await _context.Materiels.SumAsync(m => m.QuantiteDisponible),
+            UnitesEnMaintenance = await _context.Materiels.SumAsync(m => m.QuantiteEnMaintenance),
+            NombreCategories = await _context.Categories.CountAsync(),
+            ChantiersActifs = await _context.Chantiers.CountAsync(c => c.Statut == StatutChantier.EnCours),
+            ChantiersEnAttente = await _context.Chantiers.CountAsync(c => c.Statut == StatutChantier.EnAttente),
+            RetoursEnAttente = locationsActives.Count(m => m.EstEnRetard),
+            AlertesNonResolues = await _context.Alertes.CountAsync(a => !a.EstResolue),
+            EncoursClientsFCFA = await _context.Clients.SumAsync(c => c.SoldeEncoursFCFA),
+            ChiffreAffairesMoisFCFA = await _context.Factures
+                .Where(f => f.DateEmission >= debutMois)
+                .SumAsync(f => f.MontantLocationFCFA + f.MontantPenalitesFCFA)
         };
 
         return Ok(stats);

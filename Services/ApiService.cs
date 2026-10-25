@@ -268,6 +268,71 @@ public class ApiService : IApiService
         }
     }
 
+    public async Task<(bool Succes, string Message)> ChangerStatutChantierAsync(Guid chantierId, StatutChantier statut)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync(
+                $"chantiers/{chantierId}/statut",
+                new ChangementStatutChantierDto { Statut = statut });
+            if (response.IsSuccessStatusCode)
+                return (true, string.Empty);
+
+            return (false, await ReadErrorMessageAsync(response, "Le statut n’a pas pu être modifié."));
+        }
+        catch
+        {
+            return (false, "Serveur injoignable. Vérifiez votre connexion et réessayez.");
+        }
+    }
+
+    public async Task<ProfilUtilisateurDto?> GetProfilAsync(Guid utilisateurId)
+    {
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<ProfilUtilisateurDto>($"auth/profil/{utilisateurId}");
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<(ProfilUtilisateurDto? Profil, string Message)> UpdateProfilAsync(Guid utilisateurId, UpdateProfilDto request)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"auth/profil/{utilisateurId}", request);
+            if (response.IsSuccessStatusCode)
+                return (await response.Content.ReadFromJsonAsync<ProfilUtilisateurDto>(), string.Empty);
+
+            return (null, await ReadErrorMessageAsync(response, "Le profil n’a pas pu être enregistré."));
+        }
+        catch
+        {
+            return (null, "Serveur injoignable. Vérifiez votre connexion et réessayez.");
+        }
+    }
+
+    // Les contrôleurs renvoient les erreurs métier sous la forme { "message": "..." }
+    private static async Task<string> ReadErrorMessageAsync(HttpResponseMessage response, string defaut)
+    {
+        try
+        {
+            var erreur = await response.Content.ReadFromJsonAsync<ErreurApi>();
+            return string.IsNullOrWhiteSpace(erreur?.Message) ? defaut : erreur.Message;
+        }
+        catch
+        {
+            return defaut;
+        }
+    }
+
+    private sealed class ErreurApi
+    {
+        public string? Message { get; set; }
+    }
+
     // Données de secours fiables si l'API n'est pas encore lancée
     private DashboardStatsDto GetFallbackStats() => new()
     {
@@ -275,8 +340,10 @@ public class ApiService : IApiService
         UnitesSurChantiers = 780,
         UnitesDisponibles = 420,
         UnitesEnMaintenance = 40,
+        NombreCategories = 4,
         ChantiersActifs = 8,
         ChantiersEnAttente = 3,
+        RetoursEnAttente = 2,
         AlertesNonResolues = 2,
         EncoursClientsFCFA = 1250000,
         ChiffreAffairesMoisFCFA = 4850000

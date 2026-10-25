@@ -41,11 +41,14 @@ public partial class AjustementStockViewModel : BaseViewModel
         Title = "Ajuster le stock";
     }
 
+    public Guid? MaterielDemandeId { get; set; }
+
     [RelayCommand]
     public async Task LoadMaterielsAsync()
     {
         Materiels = new ObservableCollection<ScaffTrack.Shared.Models.Materiel>(await _apiService.GetMaterielsAsync());
-        SelectedMateriel ??= Materiels.FirstOrDefault();
+        SelectedMateriel = Materiels.FirstOrDefault(m => m.Id == (MaterielDemandeId ?? SelectedMateriel?.Id))
+            ?? Materiels.FirstOrDefault();
     }
 
     [RelayCommand]

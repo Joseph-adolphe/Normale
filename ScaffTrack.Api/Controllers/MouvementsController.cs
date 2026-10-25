@@ -55,6 +55,12 @@ public class MouvementsController : ControllerBase
                 || ligne.QuantiteEndommagee + ligne.QuantitePerdue > ligne.Quantite))
             return BadRequest(new { message = "Les quantités endommagées et perdues doivent être comprises dans la quantité restituée." });
 
+        if (!await _context.Chantiers.AnyAsync(c => c.Id == mouvement.ChantierId))
+            return BadRequest(new { message = "Le chantier sélectionné est introuvable." });
+
+        if (!await _context.Utilisateurs.AnyAsync(u => u.Id == mouvement.CreeParId))
+            return BadRequest(new { message = "Utilisateur inconnu. Reconnectez-vous avant d'enregistrer un mouvement." });
+
         using var transaction = await _context.Database.BeginTransactionAsync();
 
         try

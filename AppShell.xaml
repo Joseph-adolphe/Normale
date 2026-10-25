@@ -8,7 +8,7 @@
     xmlns:viewsChantiers="clr-namespace:ScaffTrack1.Views.Chantiers"
     xmlns:viewsMateriel="clr-namespace:ScaffTrack1.Views.Materiel"
     xmlns:viewsLocations="clr-namespace:ScaffTrack1.Views.Locations"
-    xmlns:viewsClients="clr-namespace:ScaffTrack1.Views.Clients"
+    xmlns:viewsPlus="clr-namespace:ScaffTrack1.Views.Plus"
     Shell.TabBarBackgroundColor="White"
     Shell.TabBarForegroundColor="#DE4A0A"
     Shell.TabBarUnselectedColor="#65758B"
@@ -53,8 +53,8 @@
         <Tab Title="Plus" Route="plus" Icon="icon_menu.svg">
             <ShellContent
                 Title="Plus"
-                ContentTemplate="{DataTemplate viewsClients:ClientsPage}"
-                Route="ClientsPage" />
+                ContentTemplate="{DataTemplate viewsPlus:PlusPage}"
+                Route="PlusPage" />
         </Tab>
     </TabBar>
 

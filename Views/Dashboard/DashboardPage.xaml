@@ -30,20 +30,20 @@
                             <Label Text="{Binding Stats.TotalUnites, StringFormat='{0:N0}'}" FontSize="28" FontAttributes="Bold" TextColor="White" />
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Spacing="1">
                                 <Label Text="unités suivies" FontSize="9" TextColor="#CED8E0" HorizontalTextAlignment="End" />
-                                <Label Text="4 catégories" FontSize="9" TextColor="#CED8E0" HorizontalTextAlignment="End" />
+                                <Label Text="{Binding Stats.NombreCategories, StringFormat='{0} catégories'}" FontSize="9" TextColor="#CED8E0" HorizontalTextAlignment="End" />
                             </VerticalStackLayout>
                         </Grid>
                         <Grid HeightRequest="6" ColumnSpacing="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="63*" />
-                                <ColumnDefinition Width="34*" />
-                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="{Binding LargeurDisponible}" />
+                                <ColumnDefinition Width="{Binding LargeurSurChantier}" />
+                                <ColumnDefinition Width="{Binding LargeurMaintenance}" />
                             </Grid.ColumnDefinitions>
                             <BoxView BackgroundColor="#13835C" CornerRadius="3" />
                             <BoxView Grid.Column="1" BackgroundColor="#3474A1" CornerRadius="3" />
                             <BoxView Grid.Column="2" BackgroundColor="#C38D18" CornerRadius="3" />
                         </Grid>
-                        <Label Text="{Binding Stats.TauxOccupation, StringFormat='{0:N0} % disponibles • {1:N0} % sortis • contrôle sécurité'}"
+                        <Label Text="{Binding ResumeParc}"
                                FontSize="9"
                                TextColor="#CED8E0" />
                     </VerticalStackLayout>
@@ -70,17 +70,17 @@
                     </Border>
                     <Border Grid.Row="1" Grid.Column="1" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
                         <VerticalStackLayout Spacing="3">
-                            <Label Text="{Binding Stats.AlertesNonResolues, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#B4232C" />
+                            <Label Text="{Binding Stats.RetoursEnAttente, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#B4232C" />
                             <Label Text="Locations en retard" FontSize="10" TextColor="#586B84" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
 
-                <Border IsVisible="{Binding HasAlerts}" Padding="10" BackgroundColor="#FDECEE" StrokeThickness="0" StrokeShape="RoundRectangle 9">
+                <Border IsVisible="{Binding HasRetards}" Padding="10" BackgroundColor="#FDECEE" StrokeThickness="0" StrokeShape="RoundRectangle 9">
                     <Grid ColumnDefinitions="20,*" ColumnSpacing="6">
                         <Image Source="icon_alert.svg" WidthRequest="16" HeightRequest="16" VerticalOptions="Start" />
                         <VerticalStackLayout Grid.Column="1" Spacing="3">
-                            <Label Text="{Binding Stats.AlertesNonResolues, StringFormat='{0} retours à relancer'}" FontSize="11" FontAttributes="Bold" TextColor="#B4232C" />
+                            <Label Text="{Binding Stats.RetoursEnAttente, StringFormat='{0} retours à relancer'}" FontSize="11" FontAttributes="Bold" TextColor="#B4232C" />
                             <Label Text="Consultez les retards et enregistrez les restitutions en attente." FontSize="10" TextColor="#B4232C" />
                         </VerticalStackLayout>
                     </Grid>

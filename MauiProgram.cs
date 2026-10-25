@@ -9,6 +9,7 @@ using ScaffTrack1.ViewModels.Historique;
 using ScaffTrack1.ViewModels.Locations;
 using ScaffTrack1.ViewModels.Materiel;
 using ScaffTrack1.ViewModels.Mouvements;
+using ScaffTrack1.ViewModels.Profile;
 using ScaffTrack1.Views.Auth;
 using ScaffTrack1.Views.Alertes;
 using ScaffTrack1.Views.Chantiers;
@@ -89,6 +90,8 @@ namespace ScaffTrack1
             builder.Services.AddTransient<PlusPage>();
             builder.Services.AddTransient<ProfilePage>();
             builder.Services.AddTransient<OfflineStatusPage>();
+            builder.Services.AddTransient<EditProfileViewModel>();
+            builder.Services.AddTransient<EditProfilePage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

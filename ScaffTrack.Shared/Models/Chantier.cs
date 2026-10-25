@@ -30,8 +30,13 @@ public class Chantier
     public List<Facture> Factures { get; set; } = new();
     public List<Alerte> Alertes { get; set; } = new();
 
+    // Unités sorties vers le chantier moins celles déjà restituées
     public int TotalPiecesSurChantier => Mouvements?
-        .Where(m => m.Type == TypeMouvement.SortieChantier && m.Statut == StatutMouvement.Valide)
-        .SelectMany(m => m.Lignes)
-        .Sum(l => l.Quantite) ?? 0;
+        .Where(m => m.Statut == StatutMouvement.Valide)
+        .Sum(m => m.Type switch
+        {
+            TypeMouvement.SortieChantier => m.TotalArticles,
+            TypeMouvement.RetourStock => -m.TotalArticles,
+            _ => 0
+        }) ?? 0;
 }
