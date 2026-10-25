@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using ScaffTrack.Shared.Models;
 using ScaffTrack1.Services;
 using ScaffTrack1.ViewModels.Base;
+using ScaffTrack1.Views.Materiel;
 
 namespace ScaffTrack1.ViewModels.Materiel;
 
@@ -48,5 +49,26 @@ public partial class MaterielListViewModel : BaseViewModel
     public async Task SearchAsync()
     {
         await LoadMaterielAsync();
+    }
+
+    [RelayCommand]
+    private async Task OpenMaterielAsync(ScaffTrack.Shared.Models.Materiel materiel)
+    {
+        await Shell.Current.GoToAsync(nameof(MaterielDetailPage), new Dictionary<string, object>
+        {
+            ["materiel"] = materiel
+        });
+    }
+
+    [RelayCommand]
+    private async Task NewMaterielAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(CreateMaterielPage));
+    }
+
+    [RelayCommand]
+    private async Task AdjustStockAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(AjustementStockPage));
     }
 }

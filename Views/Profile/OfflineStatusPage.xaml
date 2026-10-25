@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ScaffTrack1.Views.Profile.OfflineStatusPage"
+             Title="Connexion"
+             BackgroundColor="#F1F3F5">
+    <VerticalStackLayout Padding="22,28" Spacing="14" VerticalOptions="Center">
+        <Border WidthRequest="72" HeightRequest="72" StrokeThickness="0" StrokeShape="RoundRectangle 20" BackgroundColor="#FDECEE" HorizontalOptions="Center">
+            <Image Source="icon_offline.svg" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <Label Text="État de la connexion" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" HorizontalTextAlignment="Center" />
+        <Label x:Name="StatusLabel" Text="Vérification de la connexion..." FontSize="12" TextColor="#586B84" HorizontalTextAlignment="Center" />
+        <Button Text="Réessayer" Clicked="OnRetryClicked" BackgroundColor="#DE4A0A" TextColor="White" FontAttributes="Bold" CornerRadius="9" HeightRequest="46" />
+        <Button Text="Consulter les données locales" Clicked="OnLocalDataClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="44" />
+    </VerticalStackLayout>
+</ContentPage>

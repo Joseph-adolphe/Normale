@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:services="clr-namespace:ScaffTrack1.Services"
+             x:Class="ScaffTrack1.Views.Profile.ProfilePage"
+             x:DataType="services:AuthStateService"
+             Title="Profil et paramètres"
+             BackgroundColor="#F1F3F5">
+    <ScrollView>
+        <VerticalStackLayout Padding="18,14" Spacing="12">
+            <Grid ColumnDefinitions="46,*,Auto">
+                <Border WidthRequest="42" HeightRequest="42" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="#1B2C3A">
+                    <Label Text="{Binding NomUtilisateur, StringFormat='{0:0}'}" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                </Border>
+                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                    <Label Text="{Binding NomUtilisateur}" FontSize="16" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Label Text="{Binding Email}" FontSize="11" TextColor="#586B84" />
+                </VerticalStackLayout>
+                <Image Grid.Column="2" Source="icon_user.svg" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+            </Grid>
+
+            <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="9">
+                    <Label Text="Organisation" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Entreprise" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="ScaffTrack Locations" FontSize="11" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Dépôt" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="Bassa • Douala" FontSize="11" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Rôle" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding Role}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Alertes et préférences" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Alerte de retard" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch IsToggled="True" OnColor="#DE4A0A" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Rappel avant échéance" FontSize="11" TextColor="#1B2734" VerticalOptions="Center" /><Switch IsToggled="True" OnColor="#DE4A0A" /></Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Modifier mon profil" Clicked="OnEditClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="44" />
+            <Label Text="ScaffTrack • Version 1.0" FontSize="10" TextColor="#8492A4" HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

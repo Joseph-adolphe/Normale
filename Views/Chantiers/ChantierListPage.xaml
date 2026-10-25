@@ -6,78 +6,115 @@
              x:Class="ScaffTrack1.Views.Chantiers.ChantierListPage"
              x:DataType="vm:ChantierListViewModel"
              Title="Chantiers"
-             BackgroundColor="#F4F6F9">
+             BackgroundColor="#F1F3F5">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid ColumnDefinitions="*,Auto" Padding="20,12,16,8">
+            <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                <Label Text="Chantiers"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#1B2734" />
+                <Label Text="{Binding Chantiers.Count, StringFormat='{0} chantiers • Douala'}"
+                       FontSize="12"
+                       TextColor="#586B84" />
+            </VerticalStackLayout>
+            <Button Grid.Column="1"
+                    Text="+"
+                    Command="{Binding NouveauChantierCommand}"
+                    BackgroundColor="White"
+                    TextColor="#DE4A0A"
+                    FontSize="22"
+                    CornerRadius="10"
+                    WidthRequest="42"
+                    HeightRequest="42"
+                    Padding="0" />
+        </Grid>
+
         <!-- Barre de recherche -->
-        <Border Margin="16,12"
+        <Border Grid.Row="1"
+                Margin="16,4,16,10"
                 StrokeShape="RoundRectangle 10"
                 BackgroundColor="White"
                 Padding="12,4"
-                Stroke="#CBD5E1">
+                Stroke="#D8E0E9">
             <SearchBar Placeholder="Rechercher un chantier, client, ville..."
                        Text="{Binding SearchText}"
                        SearchCommand="{Binding SearchCommand}"
-                       BackgroundColor="Transparent" />
+                       BackgroundColor="Transparent"
+                       TextColor="#1B2734"
+                       PlaceholderColor="#8492A4" />
         </Border>
 
         <!-- Liste des chantiers avec rafraîchissement -->
-        <RefreshView Grid.Row="1"
+        <RefreshView Grid.Row="2"
                      IsRefreshing="{Binding IsBusy}"
                      Command="{Binding LoadChantiersCommand}">
             <CollectionView ItemsSource="{Binding Chantiers}"
-                            Margin="16,0,16,10">
+                            Margin="16,0,16,10"
+                            EmptyView="Aucun chantier trouvé.">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Chantier">
                         <Border StrokeShape="RoundRectangle 12"
                                 BackgroundColor="White"
-                                Padding="16"
+                                Padding="12"
                                 Margin="0,0,0,12"
-                                Stroke="#E2E8F0"
+                                Stroke="#D8E0E9"
                                 StrokeThickness="1">
-                            <VerticalStackLayout Spacing="8">
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <Label Text="{Binding Nom}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="16" 
-                                           TextColor="#0F172A" />
-
-                                    <Border Grid.Column="1"
-                                            StrokeShape="RoundRectangle 6"
-                                            BackgroundColor="#FEF3C7"
-                                            Padding="8,3"
-                                            StrokeThickness="0">
-                                        <Label Text="En cours" 
-                                               TextColor="#B45309" 
-                                               FontSize="11" 
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ChantierListViewModel}}, Path=OpenChantierCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="42,*,Auto" ColumnSpacing="10">
+                                <Border WidthRequest="38"
+                                        HeightRequest="38"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F1F3F5"
+                                        VerticalOptions="Start">
+                                    <Image Source="icon_hardhat.svg"
+                                           WidthRequest="20"
+                                           HeightRequest="20"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="{Binding Nom}"
+                                           FontAttributes="Bold"
+                                           FontSize="14"
+                                           TextColor="#1B2734"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Client.NomEntreprise, TargetNullValue='Client non renseigné'}"
+                                           TextColor="#586B84"
+                                           FontSize="11"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Adresse}"
+                                           TextColor="#586B84"
+                                           FontSize="11"
+                                           LineBreakMode="TailTruncation" />
+                                    <Border StrokeShape="RoundRectangle 5"
+                                            BackgroundColor="#EDF2F7"
+                                            Padding="6,2"
+                                            StrokeThickness="0"
+                                            HorizontalOptions="Start">
+                                        <Label Text="{Binding Statut}"
+                                               TextColor="#586B84"
+                                               FontSize="10"
                                                FontAttributes="Bold" />
                                     </Border>
-                                </Grid>
-
-                                <Label Text="{Binding Code, StringFormat='Réf : {0}'}" 
-                                       TextColor="#64748B" 
-                                       FontSize="12" />
-
-                                <Label Text="{Binding Adresse, StringFormat='📍 {0}'}" 
-                                       TextColor="#475569" 
-                                       FontSize="13" />
-
-                                <BoxView HeightRequest="1" BackgroundColor="#F1F5F9" Margin="0,4" />
-
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <Label Text="{Binding DateDebut, StringFormat='Début : {0:dd/MM/yyyy}'}" 
-                                           TextColor="#64748B" 
-                                           FontSize="12" 
-                                           VerticalOptions="Center" />
-
-                                    <Label Grid.Column="1" 
-                                           Text="{Binding MontantLocationPrevueFCFA, StringFormat='{0:N0} FCFA'}" 
-                                           TextColor="#EA580C" 
-                                           FontAttributes="Bold" 
-                                           FontSize="14" 
-                                           VerticalOptions="Center" />
-                                </Grid>
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2"
+                                                     Spacing="8"
+                                                     VerticalOptions="Center">
+                                    <Label Text="›"
+                                           FontSize="20"
+                                           TextColor="#65758B"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding TotalPiecesSurChantier, StringFormat='{0} unités'}"
+                                           FontSize="10"
+                                           TextColor="#586B84"
+                                           HorizontalTextAlignment="End" />
+                                </VerticalStackLayout>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

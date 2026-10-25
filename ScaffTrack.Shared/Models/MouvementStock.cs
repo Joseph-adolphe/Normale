@@ -23,6 +23,25 @@ public class MouvementStock
     public List<LigneMouvement> Lignes { get; set; } = new();
 
     public int TotalArticles => Lignes.Sum(l => l.Quantite);
+    public bool EstLocation => Type == TypeMouvement.SortieChantier;
+    public DateTime? DateRetourPrevue
+    {
+        get
+        {
+            const string marker = "Retour prévu : ";
+            var observations = Observations ?? string.Empty;
+            var start = observations.LastIndexOf(marker, StringComparison.OrdinalIgnoreCase);
+            if (start < 0)
+                return Chantier?.DateFinPrevue;
+
+            var dateText = observations[(start + marker.Length)..].Trim();
+            return DateTime.TryParseExact(dateText, "dd/MM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("fr-FR"), System.Globalization.DateTimeStyles.None, out var date)
+                ? date
+                : Chantier?.DateFinPrevue;
+        }
+    }
+
+    public bool EstEnRetard => DateRetourPrevue is { } dateRetour && dateRetour.Date < DateTime.Today;
 }
 
 public class LigneMouvement

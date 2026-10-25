@@ -11,3 +11,7 @@ Application de gestion et suivi de matériel d'échafaudage (Scaffolding Trackin
 - .NET MAUI / C#
 - ASP.NET Core Web API
 - Architecture MVVM
+
+## Ressources visuelles
+- La photo de chantier `Resources/Images/construction_site.jpg` provient de la bibliothèque Unsplash.
+- Les pictogrammes d’interface SVG proviennent de Lucide (licence ISC).

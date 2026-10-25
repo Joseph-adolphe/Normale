@@ -96,6 +96,19 @@ public class ApiService : IApiService
         }
     }
 
+    public async Task<bool> AdjustMaterielStockAsync(Guid materielId, AjustementStockDto adjustment)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"materiels/{materielId}/ajustement", adjustment);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public async Task<DashboardStatsDto> GetDashboardStatsAsync()
     {
         try
@@ -162,6 +175,19 @@ public class ApiService : IApiService
         }
     }
 
+    public async Task<bool> CreateClientAsync(Client client)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("clients", client);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public async Task<List<MouvementStock>> GetMouvementsAsync()
     {
         try
@@ -172,6 +198,32 @@ public class ApiService : IApiService
         catch
         {
             return new List<MouvementStock>();
+        }
+    }
+
+    public async Task<List<Alerte>> GetAlertesAsync()
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<Alerte>>("alertes");
+            return result ?? new List<Alerte>();
+        }
+        catch
+        {
+            return new List<Alerte>();
+        }
+    }
+
+    public async Task<bool> ResolveAlerteAsync(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsync($"alertes/{id}/resolve", null);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
         }
     }
 
@@ -193,6 +245,21 @@ public class ApiService : IApiService
         try
         {
             var response = await _httpClient.PostAsJsonAsync("mouvements", mouvement);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> ExtendLocationAsync(Guid mouvementId, DateTime dateRetourPrevue)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync(
+                $"mouvements/{mouvementId}/prolonger",
+                new ProlongationLocationDto { DateRetourPrevue = dateRetourPrevue });
             return response.IsSuccessStatusCode;
         }
         catch

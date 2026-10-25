@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Locations"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Locations.LocationsPage"
+             x:DataType="vm:LocationsViewModel"
+             Title="Locations"
+             BackgroundColor="#F1F3F5">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+        <Grid Padding="20,12,16,8" ColumnDefinitions="*,Auto">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Locations" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" />
+                <Label Text="{Binding EnCoursCount, StringFormat='{0} en cours'}" FontSize="12" TextColor="#586B84" />
+            </VerticalStackLayout>
+            <Button Grid.Column="1" Text="+" Command="{Binding NewLocationCommand}" BackgroundColor="White" TextColor="#DE4A0A" FontSize="22" CornerRadius="10" WidthRequest="42" HeightRequest="42" Padding="0" />
+        </Grid>
+
+        <Border Grid.Row="1" Margin="16,2,16,8" Padding="10,0" Stroke="#D8E0E9" StrokeShape="RoundRectangle 10" BackgroundColor="White">
+            <SearchBar Placeholder="Référence, chantier ou client..." Text="{Binding SearchText}" BackgroundColor="Transparent" TextColor="#1B2734" PlaceholderColor="#8492A4" />
+        </Border>
+
+        <HorizontalStackLayout Grid.Row="2" Padding="16,0" Spacing="8">
+            <Button Text="{Binding EnCoursCount, StringFormat='En cours ({0})'}" Command="{Binding SelectFilterCommand}" CommandParameter="En cours" BackgroundColor="#1B2C3A" TextColor="White" FontSize="10" FontAttributes="Bold" CornerRadius="7" Padding="10,5" />
+            <Button Text="{Binding EnRetardCount, StringFormat='Retard ({0})'}" Command="{Binding SelectFilterCommand}" CommandParameter="Retard" BackgroundColor="White" TextColor="#586B84" BorderColor="#D8E0E9" BorderWidth="1" FontSize="10" CornerRadius="7" Padding="10,5" />
+            <Button Text="{Binding ClotureCount, StringFormat='Clôturées ({0})'}" Command="{Binding SelectFilterCommand}" CommandParameter="Clôturées" BackgroundColor="White" TextColor="#586B84" BorderColor="#D8E0E9" BorderWidth="1" FontSize="10" CornerRadius="7" Padding="10,5" />
+        </HorizontalStackLayout>
+
+        <Border Grid.Row="3" IsVisible="{Binding HasRetards}" Margin="16,8,16,8" Padding="10" StrokeThickness="0" StrokeShape="RoundRectangle 9" BackgroundColor="#FFF5D7">
+            <Grid ColumnDefinitions="20,*" ColumnSpacing="6">
+                <Image Source="icon_alert.svg" WidthRequest="16" HeightRequest="16" VerticalOptions="Start" />
+                <Label Grid.Column="1" Text="{Binding EnRetardCount, StringFormat='{0} locations ont dépassé l’échéance. Relancez les clients ou prolongez la location.'}" FontSize="11" TextColor="#8A5B00" />
+            </Grid>
+        </Border>
+
+        <RefreshView Grid.Row="4" IsRefreshing="{Binding IsBusy}" Command="{Binding LoadLocationsCommand}">
+            <CollectionView ItemsSource="{Binding LocationsFiltrees}" Margin="16,0,16,8" EmptyView="Aucune location dans cette liste.">
+                <CollectionView.Header>
+                    <Grid Padding="0,4,0,10" ColumnDefinitions="*,Auto">
+                        <Label Text="Locations en cours" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+                        <Button Grid.Column="1" Text="Restituer" Command="{Binding NewReturnCommand}" BackgroundColor="Transparent" TextColor="#DE4A0A" FontSize="11" FontAttributes="Bold" Padding="0" />
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MouvementStock">
+                        <Border Margin="0,0,0,9" Padding="11" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:LocationsViewModel}}, Path=OpenLocationCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="9">
+                                <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0" StrokeShape="RoundRectangle 9" BackgroundColor="#F1F3F5">
+                                    <Image Source="icon_clipboard.svg" WidthRequest="19" HeightRequest="19" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="{Binding Chantier.Nom, TargetNullValue='Chantier'}" FontSize="13" FontAttributes="Bold" TextColor="#1B2734" />
+                                    <Label Text="{Binding NumeroBon}" FontSize="10" TextColor="#586B84" />
+                                    <Label Text="{Binding DateRetourPrevue, StringFormat='Retour prévu le {0:dd/MM/yyyy}'}" FontSize="10" TextColor="#586B84" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Spacing="7" VerticalOptions="Center">
+                                    <Label Text="›" FontSize="20" TextColor="#65758B" HorizontalTextAlignment="End" />
+                                    <Label Text="{Binding TotalArticles, StringFormat='{0} unités'}" FontSize="10" TextColor="#586B84" HorizontalTextAlignment="End" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScaffTrack.Api.Data;
+using ScaffTrack.Shared.DTOs;
 using ScaffTrack.Shared.Models;
 
 namespace ScaffTrack.Api.Controllers;
@@ -68,5 +69,44 @@ public class MaterielsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetMateriel), new { id = materiel.Id }, materiel);
+    }
+
+    [HttpPost("{id:guid}/ajustement")]
+    public async Task<IActionResult> AdjustStock(Guid id, AjustementStockDto adjustment)
+    {
+        if (adjustment.Quantite <= 0)
+            return BadRequest(new { message = "La quantité doit être supérieure à zéro." });
+
+        var materiel = await _context.Materiels.FindAsync(id);
+        if (materiel is null)
+            return NotFound(new { message = "Matériel introuvable." });
+
+        switch (adjustment.Type)
+        {
+            case "Entrée":
+                materiel.QuantiteTotale += adjustment.Quantite;
+                materiel.QuantiteDisponible += adjustment.Quantite;
+                break;
+            case "Sortie":
+            case "Perte":
+                if (adjustment.Quantite > materiel.QuantiteDisponible)
+                    return BadRequest(new { message = $"Stock disponible insuffisant ({materiel.QuantiteDisponible})." });
+
+                materiel.QuantiteTotale -= adjustment.Quantite;
+                materiel.QuantiteDisponible -= adjustment.Quantite;
+                break;
+            case "Maintenance":
+                if (adjustment.Quantite > materiel.QuantiteDisponible)
+                    return BadRequest(new { message = $"Stock disponible insuffisant ({materiel.QuantiteDisponible})." });
+
+                materiel.QuantiteDisponible -= adjustment.Quantite;
+                materiel.QuantiteEnMaintenance += adjustment.Quantite;
+                break;
+            default:
+                return BadRequest(new { message = "Type d’ajustement inconnu." });
+        }
+
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }

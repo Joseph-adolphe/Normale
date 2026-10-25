@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Clients"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Clients.ClientsPage"
+             x:DataType="vm:ClientsViewModel"
+             Title="Plus"
+             BackgroundColor="#F1F3F5">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid Padding="20,14,16,10" ColumnDefinitions="*,Auto">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Clients" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" />
+                <Label Text="{Binding Clients.Count, StringFormat='{0} entreprises partenaires'}" FontSize="12" TextColor="#586B84" />
+            </VerticalStackLayout>
+            <Button Grid.Column="1"
+                    Text="+"
+                    Command="{Binding NewClientCommand}"
+                    BackgroundColor="White"
+                    TextColor="#DE4A0A"
+                    FontSize="22"
+                    CornerRadius="10"
+                    WidthRequest="42"
+                    HeightRequest="42"
+                    Padding="0" />
+        </Grid>
+
+        <Border Grid.Row="1" Margin="16,0,16,12" Padding="10,0" Stroke="#D8E0E9" StrokeShape="RoundRectangle 10" BackgroundColor="White">
+            <SearchBar Placeholder="Entreprise, contact, ville..."
+                       Text="{Binding SearchText}"
+                       BackgroundColor="Transparent"
+                       TextColor="#1B2734"
+                       PlaceholderColor="#8492A4" />
+        </Border>
+
+        <RefreshView Grid.Row="2" IsRefreshing="{Binding IsBusy}" Command="{Binding LoadClientsCommand}">
+            <CollectionView ItemsSource="{Binding Clients}" Margin="16,0,16,12" EmptyView="Aucun client trouvé.">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Client">
+                        <Border Margin="0,0,0,10" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClientsViewModel}}, Path=OpenClientCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="42,*,Auto" ColumnSpacing="10">
+                                <Border WidthRequest="38" HeightRequest="38" StrokeThickness="0" StrokeShape="RoundRectangle 10" BackgroundColor="#E8F1F7">
+                                    <Label Text="{Binding NomEntreprise, StringFormat='{0:0}'}" FontSize="15" FontAttributes="Bold" TextColor="#28618D" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="{Binding NomEntreprise}" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding ContactNom}" FontSize="11" TextColor="#586B84" />
+                                    <Label Text="{Binding Telephone}" FontSize="11" TextColor="#586B84" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Spacing="7" VerticalOptions="Center">
+                                    <Label Text="›" FontSize="20" TextColor="#65758B" HorizontalTextAlignment="End" />
+                                    <Label Text="{Binding Chantiers.Count, StringFormat='{0} chantiers'}" FontSize="10" TextColor="#586B84" HorizontalTextAlignment="End" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

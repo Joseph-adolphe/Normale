@@ -5,157 +5,178 @@
              x:Class="ScaffTrack1.Views.Auth.LoginPage"
              x:DataType="vm:LoginViewModel"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="#FFFFFF">
+             BackgroundColor="#F1F3F5">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="24,40,24,24" Spacing="22" VerticalOptions="Center">
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                Padding="20,12,20,14">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Bienvenue"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#1B2734" />
+                <Label Text="Votre parc, toujours sous contrôle"
+                       FontSize="12"
+                       TextColor="#586B84" />
+            </VerticalStackLayout>
+        </Border>
 
-            <!-- Logo / Icône de marque -->
-            <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
-                <Border StrokeShape="RoundRectangle 20"
-                        BackgroundColor="#141E28"
-                        WidthRequest="72"
-                        HeightRequest="72"
-                        StrokeThickness="0"
-                        HorizontalOptions="Center">
-                    <Label Text="🏗" 
-                           FontSize="36" 
-                           HorizontalOptions="Center" 
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,14,16,20" Spacing="10">
+                <Grid ColumnDefinitions="36,*" ColumnSpacing="8" VerticalOptions="Center">
+                    <Border WidthRequest="32"
+                            HeightRequest="32"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 9"
+                            BackgroundColor="#1B2C3A"
+                            VerticalOptions="Center">
+                        <Image Source="icon_hardhat.svg"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                    <Label Grid.Column="1"
+                           Text="ScaffTrack"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1B2734"
                            VerticalOptions="Center" />
+                </Grid>
+
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 12"
+                        HeightRequest="124"
+                        HorizontalOptions="Fill">
+                    <Image Source="construction_site.jpg"
+                           Aspect="AspectFill"
+                           SemanticProperties.Description="Ouvriers sur un chantier de construction" />
                 </Border>
 
-                <Label Text="ScaffTrack" 
-                       FontSize="28" 
-                       FontAttributes="Bold" 
-                       TextColor="#141E28" 
-                       HorizontalTextAlignment="Center" />
+                <VerticalStackLayout Spacing="2" Margin="0,1,0,2">
+                    <Label Text="Prêt pour la journée ?"
+                           FontSize="21"
+                           FontAttributes="Bold"
+                           TextColor="#1B2734" />
+                    <Label Text="Connectez-vous à votre espace d’exploitation."
+                           FontSize="12"
+                           TextColor="#586B84" />
+                </VerticalStackLayout>
 
-                <Label Text="Gestion &amp; Traçabilité d'Échafaudages" 
-                       FontSize="13" 
-                       TextColor="#64748B" 
-                       HorizontalTextAlignment="Center" />
-            </VerticalStackLayout>
-
-            <!-- Titre section connexion -->
-            <VerticalStackLayout Spacing="4" Margin="0,15,0,5">
-                <Label Text="Connexion" 
-                       FontSize="22" 
-                       FontAttributes="Bold" 
-                       TextColor="#0F172A" />
-                <Label Text="Saisissez vos identifiants pour accéder à votre espace" 
-                       FontSize="13" 
-                       TextColor="#64748B" />
-            </VerticalStackLayout>
-
-            <!-- Message d'erreur -->
-            <Border StrokeShape="RoundRectangle 8"
-                    BackgroundColor="#FEE2E2"
-                    Stroke="#FCA5A5"
-                    Padding="12,8"
-                    IsVisible="{Binding HasErrorMessage}">
-                <Label Text="{Binding MessageErreur}" 
-                       TextColor="#DC2626" 
-                       FontSize="12" />
-            </Border>
-
-            <!-- Formulaire -->
-            <VerticalStackLayout Spacing="14">
-                <!-- Email -->
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="Adresse Email" 
-                           FontSize="13" 
-                           FontAttributes="Bold" 
-                           TextColor="#334155" />
-                    <Border StrokeShape="RoundRectangle 10"
-                            Stroke="#CBD5E1"
-                            BackgroundColor="#F8FAFC"
-                            Padding="12,2">
-                        <Entry Text="{Binding Email}" 
-                               Placeholder="nom@entreprise.com" 
-                               Keyboard="Email" 
-                               TextColor="#0F172A" />
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Adresse e-mail *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#1B2734" />
+                    <Border Stroke="#D8E0E9"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            Padding="11,0">
+                        <Entry Text="{Binding Email}"
+                               Placeholder="nom@entreprise.com"
+                               Keyboard="Email"
+                               ReturnType="Next"
+                               TextColor="#1B2734"
+                               PlaceholderColor="#8A98A9"
+                               HeightRequest="42" />
                     </Border>
                 </VerticalStackLayout>
 
-                <!-- Mot de passe -->
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="Mot de passe" 
-                           FontSize="13" 
-                           FontAttributes="Bold" 
-                           TextColor="#334155" />
-                    <Border StrokeShape="RoundRectangle 10"
-                            Stroke="#CBD5E1"
-                            BackgroundColor="#F8FAFC"
-                            Padding="12,2">
-                        <Entry Text="{Binding MotDePasse}" 
-                               Placeholder="••••••••" 
-                               IsPassword="True" 
-                               TextColor="#0F172A" />
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Mot de passe *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#1B2734" />
+                    <Border Stroke="#D8E0E9"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            Padding="11,0">
+                        <Entry Text="{Binding MotDePasse}"
+                               Placeholder="Mot de passe"
+                               IsPassword="True"
+                               ReturnType="Go"
+                               TextColor="#1B2734"
+                               PlaceholderColor="#8A98A9"
+                               HeightRequest="42" />
                     </Border>
                 </VerticalStackLayout>
 
-                <!-- Mot de passe oublié -->
-                <Label Text="Mot de passe oublié ?" 
-                       TextColor="#EA580C" 
-                       FontSize="13" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="End">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MotDePasseOublieCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 10"
+                        BackgroundColor="#FDECEE"
+                        Padding="11,9"
+                        IsVisible="{Binding HasErrorMessage}">
+                    <Grid ColumnDefinitions="18,*" ColumnSpacing="6">
+                        <Label Text="!"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#C62828"
+                               VerticalOptions="Start" />
+                        <Label Grid.Column="1"
+                               Text="{Binding MessageErreur}"
+                               FontSize="11"
+                               TextColor="#B4232C"
+                               LineBreakMode="WordWrap" />
+                    </Grid>
+                </Border>
+
+                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,1">
+                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                        <CheckBox IsChecked="True"
+                                  Color="#1B2C3A"
+                                  WidthRequest="22"
+                                  HeightRequest="22"
+                                  VerticalOptions="Center" />
+                        <Label Text="Rester connecté"
+                               FontSize="10"
+                               TextColor="#1B2734"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label Grid.Column="1"
+                           Text="Mot de passe oublié ?"
+                           FontSize="10"
+                           FontAttributes="Bold"
+                           TextColor="#D9470F"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding MotDePasseOublieCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+                <Button Text="→   Se connecter"
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="#DE4A0A"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        CornerRadius="9"
+                        HeightRequest="44"
+                        Padding="12,0" />
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                    <Label Text="Pas encore de compte ?"
+                           FontSize="11"
+                           TextColor="#586B84" />
+                    <Label Text="Créer un compte"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#D9470F">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#DE4A0A"
+                                   HorizontalOptions="Center" />
             </VerticalStackLayout>
-
-            <!-- Bouton de connexion Orange BTP -->
-            <Button Text="Se connecter" 
-                    Command="{Binding LoginCommand}"
-                    BackgroundColor="#EA580C" 
-                    TextColor="White" 
-                    FontAttributes="Bold" 
-                    FontSize="16" 
-                    CornerRadius="10" 
-                    HeightRequest="50" 
-                    Margin="0,10,0,0" />
-
-            <!-- Lien Inscription -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6" Margin="0,5,0,0">
-                <Label Text="Pas encore de compte ?" TextColor="#64748B" FontSize="13" />
-                <Label Text="Créer un compte" 
-                       TextColor="#EA580C" 
-                       FontAttributes="Bold" 
-                       FontSize="13">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
-
-            <!-- Indicateur de chargement -->
-            <ActivityIndicator IsRunning="{Binding IsBusy}" 
-                               IsVisible="{Binding IsBusy}" 
-                               Color="#EA580C" 
-                               HorizontalOptions="Center" />
-
-            <!-- Badge info démo -->
-            <Border StrokeShape="RoundRectangle 10"
-                    BackgroundColor="#F1F5F9"
-                    Stroke="#E2E8F0"
-                    Padding="14,10"
-                    Margin="0,10,0,0">
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="💡 Compte Démo disponible :" 
-                           FontSize="12" 
-                           FontAttributes="Bold" 
-                           TextColor="#475569" />
-                    <Label Text="Email : admin@scafftrack.com" 
-                           FontSize="11" 
-                           TextColor="#64748B" />
-                    <Label Text="Mot de passe : admin123" 
-                           FontSize="11" 
-                           TextColor="#64748B" />
-                </VerticalStackLayout>
-            </Border>
-
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

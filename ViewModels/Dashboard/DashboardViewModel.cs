@@ -5,6 +5,9 @@ using ScaffTrack.Shared.DTOs;
 using ScaffTrack.Shared.Models;
 using ScaffTrack1.Services;
 using ScaffTrack1.ViewModels.Base;
+using ScaffTrack1.Views.Alertes;
+using ScaffTrack1.Views.Historique;
+using ScaffTrack1.Views.Mouvements;
 
 namespace ScaffTrack1.ViewModels.Dashboard;
 
@@ -14,6 +17,7 @@ public partial class DashboardViewModel : BaseViewModel
     private readonly AuthStateService _authState;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasAlerts))]
     private DashboardStatsDto stats = new();
 
     [ObservableProperty]
@@ -22,6 +26,7 @@ public partial class DashboardViewModel : BaseViewModel
     /// <summary>Nom affiché dans le header du dashboard.</summary>
     public string NomUtilisateur => _authState.NomUtilisateur ?? "Utilisateur";
     public string RoleUtilisateur => _authState.Role ?? "";
+    public bool HasAlerts => Stats.AlertesNonResolues > 0;
 
     public DashboardViewModel(IApiService apiService, AuthStateService authState)
     {
@@ -56,13 +61,13 @@ public partial class DashboardViewModel : BaseViewModel
     [RelayCommand]
     public async Task NouveauBonSortieAsync()
     {
-        await Shell.Current.GoToAsync("SortieStockPage");
+        await Shell.Current.GoToAsync($"{nameof(SortieStockPage)}?mode=sortie");
     }
 
     [RelayCommand]
     public async Task RetourMaterielAsync()
     {
-        await Shell.Current.DisplayAlert("Retour Matériel", "Formulaire de contrôle de retour et réintégration en stock.", "OK");
+        await Shell.Current.GoToAsync($"{nameof(SortieStockPage)}?mode=retour");
     }
 
     [RelayCommand]
@@ -82,5 +87,17 @@ public partial class DashboardViewModel : BaseViewModel
             // Retour à la page de connexion
             await Shell.Current.GoToAsync("//LoginPage");
         }
+    }
+
+    [RelayCommand]
+    public async Task VoirAlertesAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(AlertesPage));
+    }
+
+    [RelayCommand]
+    public async Task VoirHistoriqueAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(HistoriquePage));
     }
 }

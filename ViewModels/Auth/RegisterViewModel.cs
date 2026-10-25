@@ -10,6 +10,7 @@ namespace ScaffTrack1.ViewModels.Auth;
 public partial class RegisterViewModel : BaseViewModel
 {
     private readonly IApiService _apiService;
+    private readonly AuthStateService _authState;
 
     [ObservableProperty]
     private string nom = string.Empty;
@@ -42,9 +43,10 @@ public partial class RegisterViewModel : BaseViewModel
         UserRole.ChefChantier
     };
 
-    public RegisterViewModel(IApiService apiService)
+    public RegisterViewModel(IApiService apiService, AuthStateService authState)
     {
         _apiService = apiService;
+        _authState = authState;
         Title = "Inscription";
     }
 
@@ -78,8 +80,13 @@ public partial class RegisterViewModel : BaseViewModel
 
             if (result.Succes)
             {
+                _authState.SetSession(
+                    result.Nom ?? $"{Prenom} {Nom}".Trim(),
+                    result.Role ?? Role.ToString(),
+                    Email,
+                    result.UtilisateurId == Guid.Empty ? null : result.UtilisateurId);
                 await Shell.Current.DisplayAlert("Bienvenue !", $"Compte créé avec succès pour {result.Nom}.", "Continuer");
-                await Shell.Current.GoToAsync("//DashboardPage");
+                await Shell.Current.GoToAsync("//main");
             }
             else
             {

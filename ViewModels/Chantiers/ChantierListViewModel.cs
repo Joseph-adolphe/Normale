@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using ScaffTrack.Shared.Models;
 using ScaffTrack1.Services;
 using ScaffTrack1.ViewModels.Base;
+using ScaffTrack1.Views.Chantiers;
 
 namespace ScaffTrack1.ViewModels.Chantiers;
 
@@ -48,5 +49,20 @@ public partial class ChantierListViewModel : BaseViewModel
     public async Task SearchAsync()
     {
         await LoadChantiersAsync();
+    }
+
+    [RelayCommand]
+    public async Task NouveauChantierAsync()
+    {
+        await Shell.Current.GoToAsync("CreateChantierPage");
+    }
+
+    [RelayCommand]
+    private async Task OpenChantierAsync(Chantier chantier)
+    {
+        await Shell.Current.GoToAsync(nameof(ChantierDetailPage), new Dictionary<string, object>
+        {
+            ["chantier"] = chantier
+        });
     }
 }

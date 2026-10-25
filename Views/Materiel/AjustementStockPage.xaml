@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Materiel"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Materiel.AjustementStockPage"
+             x:DataType="vm:AjustementStockViewModel"
+             Title="Ajuster le stock"
+             BackgroundColor="#F1F3F5">
+    <ScrollView>
+        <VerticalStackLayout Padding="18,14" Spacing="12">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Ajuster le stock" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" />
+                <Label Text="Mise à jour de l’inventaire du dépôt" FontSize="11" TextColor="#586B84" />
+            </VerticalStackLayout>
+
+            <Border Padding="12" BackgroundColor="#F8FAFC" Stroke="#D8E0E9" StrokeShape="RoundRectangle 10">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Stock disponible actuel" FontSize="10" TextColor="#586B84" />
+                    <Label Text="{Binding SelectedMateriel.QuantiteDisponible, StringFormat='{0} unités'}" FontSize="16" FontAttributes="Bold" TextColor="#1B2734" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Matériel *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Padding="8,0" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 9">
+                    <Picker ItemsSource="{Binding Materiels}" ItemDisplayBinding="{Binding Nom}" SelectedItem="{Binding SelectedMateriel}" Title="Choisir le matériel" TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Type de mouvement *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <HorizontalStackLayout BindableLayout.ItemsSource="{Binding TypesMouvement}" Spacing="7">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Button Text="{Binding .}"
+                                    Clicked="OnTypeSelected"
+                                    BackgroundColor="White"
+                                    TextColor="#586B84"
+                                    BorderColor="#D8E0E9"
+                                    BorderWidth="1"
+                                    FontSize="10"
+                                    CornerRadius="7"
+                                    Padding="10,5" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Quantité *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Border Padding="9,0" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 9">
+                        <Entry Text="{Binding Quantite}" Keyboard="Numeric" TextColor="#1B2734" />
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Date *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Border Padding="8,0" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 9">
+                        <DatePicker Date="{Binding DateMouvement}" Format="dd/MM/yyyy" TextColor="#1B2734" />
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Motif *" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                <Border Padding="9,4" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 9">
+                    <Editor Text="{Binding Motif}" HeightRequest="62" Placeholder="Précisez la raison de l’ajustement" TextColor="#1B2734" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Border IsVisible="{Binding HasError}" Padding="10" BackgroundColor="#FDECEE" StrokeThickness="0" StrokeShape="RoundRectangle 8">
+                <Label Text="{Binding MessageErreur}" FontSize="11" TextColor="#B4232C" />
+            </Border>
+            <Button Text="Enregistrer l’ajustement" Command="{Binding SaveAdjustmentCommand}" IsEnabled="{Binding IsNotBusy}" BackgroundColor="#DE4A0A" TextColor="White" FontAttributes="Bold" CornerRadius="9" HeightRequest="46" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

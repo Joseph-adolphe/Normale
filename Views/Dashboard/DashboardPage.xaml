@@ -5,268 +5,138 @@
              xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
              x:Class="ScaffTrack1.Views.Dashboard.DashboardPage"
              x:DataType="vm:DashboardViewModel"
-             Title="ScaffTrack"
-             BackgroundColor="#F4F6F9">
-
-    <ScrollView>
-        <VerticalStackLayout Padding="18,15" Spacing="18">
-
-            <!-- En-tête : Salutations & Profil -->
-            <Grid ColumnDefinitions="*, Auto">
-                <VerticalStackLayout Spacing="2">
-                    <Label Text="Bonjour, Admin 👋" 
-                           FontSize="20" 
-                           FontAttributes="Bold" 
-                           TextColor="#1E293B" />
-                    <Label Text="Gestionnaire de parc d'échafaudages" 
-                           FontSize="12" 
-                           TextColor="#64748B" />
-                </VerticalStackLayout>
-
-                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
-                    <Border StrokeShape="RoundRectangle 8"
-                            Padding="8,6"
-                            BackgroundColor="#FEE2E2"
-                            Stroke="#FECACA">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding DeconnexionCommand}" />
-                        </Border.GestureRecognizers>
-                        <HorizontalStackLayout Spacing="4">
-                            <Label Text="🚪" FontSize="11" VerticalOptions="Center" />
-                            <Label Text="Quitter" TextColor="#DC2626" FontSize="11" FontAttributes="Bold" VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-                    </Border>
-
-                    <Border StrokeShape="RoundRectangle 20"
-                            HeightRequest="38"
-                            WidthRequest="38"
-                            BackgroundColor="#E2E8F0"
-                            Stroke="Transparent">
-                        <Label Text="AD" 
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Center" 
-                               FontAttributes="Bold" 
-                               TextColor="#334155" />
-                    </Border>
-                </HorizontalStackLayout>
-            </Grid>
-
-            <!-- CARTE CENTRALE : Synthèse du Parc Matériel -->
-            <Border StrokeShape="RoundRectangle 16"
-                    BackgroundColor="#141E28"
-                    Padding="20"
-                    StrokeThickness="0">
-                <VerticalStackLayout Spacing="14">
-                    <Grid ColumnDefinitions="*, Auto">
-                        <Label Text="PARC GLOBAL" 
-                               TextColor="#94A3B8" 
-                               FontSize="11" 
-                               FontAttributes="Bold" 
-                               CharacterSpacing="1" />
-                        <Label Grid.Column="1"
-                               Text="100% à jour" 
-                               TextColor="#10B981" 
-                               FontSize="11" 
-                               FontAttributes="Bold" />
-                    </Grid>
-
-                    <!-- Chiffre Total -->
-                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                        <Label Text="{Binding Stats.TotalUnites, StringFormat='{0:N0}'}" 
-                               TextColor="White" 
-                               FontSize="32" 
-                               FontAttributes="Bold" />
-                        <Label Text="unités au total" 
-                               TextColor="#94A3B8" 
-                               FontSize="14" 
-                               VerticalOptions="End" 
-                               Margin="0,0,0,5" />
-                    </HorizontalStackLayout>
-
-                    <!-- Barre de répartition visuelle -->
-                    <Grid HeightRequest="8" ColumnSpacing="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="63*" />
-                            <ColumnDefinition Width="34*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-                        <!-- Sur chantiers (orange) -->
-                        <BoxView BackgroundColor="#EA580C" CornerRadius="4" />
-                        <!-- En stock disponible (vert) -->
-                        <BoxView Grid.Column="1" BackgroundColor="#10B981" CornerRadius="4" />
-                        <!-- En maintenance (gris) -->
-                        <BoxView Grid.Column="2" BackgroundColor="#64748B" CornerRadius="4" />
-                    </Grid>
-
-                    <!-- Badges Répartition -->
-                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,5,0,0">
-                        <!-- En Chantier -->
-                        <Border StrokeShape="RoundRectangle 10"
-                                BackgroundColor="#1E293B"
-                                Padding="12,10"
-                                StrokeThickness="0">
-                            <VerticalStackLayout Spacing="2">
-                                <HorizontalStackLayout Spacing="6">
-                                    <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" BackgroundColor="#EA580C" VerticalOptions="Center" />
-                                    <Label Text="Sur Chantiers" TextColor="#CBD5E1" FontSize="11" />
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding Stats.UnitesSurChantiers, StringFormat='{0:N0}'}" 
-                                       TextColor="#F97316" 
-                                       FontSize="18" 
-                                       FontAttributes="Bold" />
-                            </VerticalStackLayout>
-                        </Border>
-
-                        <!-- En Stock Disponible -->
-                        <Border StrokeShape="RoundRectangle 10"
-                                BackgroundColor="#1E293B"
-                                Padding="12,10"
-                                StrokeThickness="0">
-                            <VerticalStackLayout Spacing="2">
-                                <HorizontalStackLayout Spacing="6">
-                                    <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" BackgroundColor="#10B981" VerticalOptions="Center" />
-                                    <Label Text="En Stock Libre" TextColor="#CBD5E1" FontSize="11" />
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding Stats.UnitesDisponibles, StringFormat='{0:N0}'}" 
-                                       TextColor="#34D399" 
-                                       FontSize="18" 
-                                       FontAttributes="Bold" />
-                            </VerticalStackLayout>
-                        </Border>
-                    </Grid>
-                </VerticalStackLayout>
+             Title="Accueil"
+             BackgroundColor="#F1F3F5">
+    <Grid RowDefinitions="Auto,*">
+        <Grid Padding="20,12,18,12" ColumnDefinitions="*,Auto" BackgroundColor="White">
+            <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                <Label Text="{Binding NomUtilisateur, StringFormat='Bonjour, {0}'}" FontSize="18" FontAttributes="Bold" TextColor="#1B2734" />
+                <Label Text="Dépôt de Bassa • Douala" FontSize="11" TextColor="#586B84" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 9" BackgroundColor="#F1F3F5">
+                <Image Source="icon_bell.svg" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding VoirAlertesCommand}" />
+                </Border.GestureRecognizers>
             </Border>
+        </Grid>
 
-            <!-- BOUTONS D'ACTIONS RAPIDES -->
-            <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
-                <!-- Nouveau Bon de Sortie -->
-                <Button Text="+ Sortie" 
-                        Command="{Binding NouveauBonSortieCommand}"
-                        BackgroundColor="#EA580C" 
-                        TextColor="White" 
-                        FontAttributes="Bold" 
-                        CornerRadius="10" 
-                        HeightRequest="46" />
-
-                <!-- Retour Stock -->
-                <Button Grid.Column="1" 
-                        Text="↩ Retour" 
-                        Command="{Binding RetourMaterielCommand}"
-                        BackgroundColor="White" 
-                        TextColor="#1E293B" 
-                        BorderColor="#CBD5E1" 
-                        BorderWidth="1" 
-                        FontAttributes="Bold" 
-                        CornerRadius="10" 
-                        HeightRequest="46" />
-
-                <!-- Nouveau Chantier -->
-                <Button Grid.Column="2" 
-                        Text="🏗 Chantier" 
-                        Command="{Binding NouveauChantierCommand}"
-                        BackgroundColor="White" 
-                        TextColor="#1E293B" 
-                        BorderColor="#CBD5E1" 
-                        BorderWidth="1" 
-                        FontAttributes="Bold" 
-                        CornerRadius="10" 
-                        HeightRequest="46" />
-            </Grid>
-
-            <!-- STATISTIQUES ENCOURS & ALERTES -->
-            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                <!-- Chantiers Actifs -->
-                <Border StrokeShape="RoundRectangle 12"
-                        BackgroundColor="White"
-                        Padding="14"
-                        Stroke="#E2E8F0"
-                        StrokeThickness="1">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Chantiers Actifs" TextColor="#64748B" FontSize="12" />
-                        <Label Text="{Binding Stats.ChantiersActifs}" FontSize="22" FontAttributes="Bold" TextColor="#1E293B" />
-                        <Label Text="8 chantiers en cours" TextColor="#10B981" FontSize="11" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,12,16,18" Spacing="10">
+                <Border Padding="14" BackgroundColor="#142B3A" StrokeThickness="0" StrokeShape="RoundRectangle 13">
+                    <VerticalStackLayout Spacing="9">
+                        <Label Text="ÉTAT DU PARC • EN DIRECT" FontSize="9" TextColor="#B9C8D2" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Stats.TotalUnites, StringFormat='{0:N0}'}" FontSize="28" FontAttributes="Bold" TextColor="White" />
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Spacing="1">
+                                <Label Text="unités suivies" FontSize="9" TextColor="#CED8E0" HorizontalTextAlignment="End" />
+                                <Label Text="4 catégories" FontSize="9" TextColor="#CED8E0" HorizontalTextAlignment="End" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid HeightRequest="6" ColumnSpacing="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="63*" />
+                                <ColumnDefinition Width="34*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <BoxView BackgroundColor="#13835C" CornerRadius="3" />
+                            <BoxView Grid.Column="1" BackgroundColor="#3474A1" CornerRadius="3" />
+                            <BoxView Grid.Column="2" BackgroundColor="#C38D18" CornerRadius="3" />
+                        </Grid>
+                        <Label Text="{Binding Stats.TauxOccupation, StringFormat='{0:N0} % disponibles • {1:N0} % sortis • contrôle sécurité'}"
+                               FontSize="9"
+                               TextColor="#CED8E0" />
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Encours Financier FCFA -->
-                <Border Grid.Column="1"
-                        StrokeShape="RoundRectangle 12"
-                        BackgroundColor="White"
-                        Padding="14"
-                        Stroke="#E2E8F0"
-                        StrokeThickness="1">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Encours Locations" TextColor="#64748B" FontSize="12" />
-                        <Label Text="{Binding Stats.EncoursClientsFCFA, StringFormat='{0:N0} F'}" 
-                               FontSize="17" 
-                               FontAttributes="Bold" 
-                               TextColor="#1E293B" />
-                        <Label Text="Devis &amp; loyers FCFA" TextColor="#EA580C" FontSize="11" />
-                    </VerticalStackLayout>
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                    <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="{Binding Stats.UnitesDisponibles, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#087A50" />
+                            <Label Text="✓ Disponibles" FontSize="10" TextColor="#586B84" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="{Binding Stats.UnitesSurChantiers, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#28618D" />
+                            <Label Text="↗ Sur chantier" FontSize="10" TextColor="#586B84" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="{Binding Stats.UnitesEnMaintenance, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#9A6B0A" />
+                            <Label Text="En maintenance" FontSize="10" TextColor="#586B84" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="{Binding Stats.AlertesNonResolues, StringFormat='{0:N0}'}" FontSize="22" FontAttributes="Bold" TextColor="#B4232C" />
+                            <Label Text="Locations en retard" FontSize="10" TextColor="#586B84" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border IsVisible="{Binding HasAlerts}" Padding="10" BackgroundColor="#FDECEE" StrokeThickness="0" StrokeShape="RoundRectangle 9">
+                    <Grid ColumnDefinitions="20,*" ColumnSpacing="6">
+                        <Image Source="icon_alert.svg" WidthRequest="16" HeightRequest="16" VerticalOptions="Start" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                            <Label Text="{Binding Stats.AlertesNonResolues, StringFormat='{0} retours à relancer'}" FontSize="11" FontAttributes="Bold" TextColor="#B4232C" />
+                            <Label Text="Consultez les retards et enregistrez les restitutions en attente." FontSize="10" TextColor="#B4232C" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VoirAlertesCommand}" />
+                    </Border.GestureRecognizers>
                 </Border>
-            </Grid>
 
-            <!-- SECTION : Chantiers en cours récents -->
-            <Grid ColumnDefinitions="*, Auto" Margin="0,5,0,0">
-                <Label Text="Chantiers en cours" 
-                       FontSize="16" 
-                       FontAttributes="Bold" 
-                       TextColor="#1E293B" 
-                       VerticalOptions="Center" />
-                <Label Grid.Column="1" 
-                       Text="Voir tout →" 
-                       TextColor="#EA580C" 
-                       FontAttributes="Bold" 
-                       FontSize="13" 
-                       VerticalOptions="Center" />
-            </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Text="+  Affecter"
+                            Command="{Binding NouveauBonSortieCommand}"
+                            BackgroundColor="#DE4A0A"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="9"
+                            HeightRequest="42" />
+                    <Button Grid.Column="1"
+                            Text="↵  Restituer"
+                            Command="{Binding RetourMaterielCommand}"
+                            BackgroundColor="White"
+                            TextColor="#1B2734"
+                            BorderColor="#D8E0E9"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            CornerRadius="9"
+                            HeightRequest="42" />
+                </Grid>
 
-            <CollectionView ItemsSource="{Binding ChantiersRecents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Chantier">
-                        <Border StrokeShape="RoundRectangle 12"
-                                BackgroundColor="White"
-                                Padding="15"
-                                Margin="0,0,0,10"
-                                Stroke="#E2E8F0"
-                                StrokeThickness="1">
-                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
-                                <Label Text="{Binding Nom}" 
-                                       FontAttributes="Bold" 
-                                       FontSize="15" 
-                                       TextColor="#0F172A" />
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="À suivre aujourd’hui" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="Historique ›" FontSize="10" FontAttributes="Bold" TextColor="#DE4A0A" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoirHistoriqueCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
 
-                                <Border Grid.Column="1"
-                                        StrokeShape="RoundRectangle 6"
-                                        BackgroundColor="#FEF3C7"
-                                        Padding="8,3"
-                                        StrokeThickness="0">
-                                    <Label Text="En cours" 
-                                           TextColor="#B45309" 
-                                           FontSize="11" 
-                                           FontAttributes="Bold" />
-                                </Border>
-
-                                <Label Grid.Row="1" 
-                                       Text="{Binding Adresse, StringFormat='📍 {0}'}" 
-                                       TextColor="#64748B" 
-                                       FontSize="12" 
-                                       Margin="0,4,0,0" />
-
-                                <Label Grid.Row="1" 
-                                       Grid.Column="1" 
-                                       Text="{Binding MontantLocationPrevueFCFA, StringFormat='{0:N0} FCFA'}" 
-                                       TextColor="#EA580C" 
-                                       FontAttributes="Bold" 
-                                       FontSize="12" 
-                                       HorizontalOptions="End" 
-                                       Margin="0,4,0,0" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-        </VerticalStackLayout>
-    </ScrollView>
+                <CollectionView ItemsSource="{Binding ChantiersRecents}" HeightRequest="180">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Chantier">
+                            <Border Margin="0,0,0,8" Padding="10" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 11">
+                                <Grid ColumnDefinitions="34,*,Auto" ColumnSpacing="8">
+                                    <Border WidthRequest="32" HeightRequest="32" StrokeThickness="0" StrokeShape="RoundRectangle 8" BackgroundColor="#F1F3F5">
+                                        <Image Source="icon_clipboard.svg" WidthRequest="17" HeightRequest="17" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                        <Label Text="{Binding Nom}" FontSize="12" FontAttributes="Bold" TextColor="#1B2734" />
+                                        <Label Text="{Binding Code}" FontSize="10" TextColor="#586B84" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="›" FontSize="18" TextColor="#65758B" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

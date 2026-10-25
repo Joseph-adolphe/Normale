@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Chantiers.ChantierDetailPage"
+             x:DataType="models:Chantier"
+             Title="Fiche chantier"
+             BackgroundColor="#F1F3F5">
+    <ScrollView>
+        <VerticalStackLayout Padding="16,14" Spacing="10">
+            <Border StrokeThickness="0" StrokeShape="RoundRectangle 12" HeightRequest="128" BackgroundColor="White">
+                <Image Source="bonamoussadi_site.jpg" Aspect="AspectFill" SemanticProperties.Description="Chantier de construction à Bonamoussadi" />
+            </Border>
+            <HorizontalStackLayout Spacing="6">
+                <Label Text="●" FontSize="11" TextColor="#B4232C" VerticalOptions="Center" />
+                <Label Text="{Binding Statut}" FontSize="10" FontAttributes="Bold" TextColor="#B4232C" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Client.NomEntreprise, TargetNullValue='Client non renseigné'}" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Label Text="{Binding Client.ContactNom, StringFormat='Responsable : {0}', TargetNullValue='Responsable non renseigné'}" FontSize="11" TextColor="#586B84" />
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Téléphone" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding Client.Telephone}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Text="Appeler" Clicked="OnCallClientClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="40" />
+                        <Button Grid.Column="1" Text="Voir le client" Clicked="OnClientClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="40" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Ville}" FontSize="13" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Label Text="{Binding Adresse}" FontSize="11" TextColor="#586B84" />
+                    <Button Text="Voir la localisation" Clicked="OnMapClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="40" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="{Binding TotalPiecesSurChantier, StringFormat='Matériel affecté • {0} unités'}" FontSize="13" FontAttributes="Bold" TextColor="#1B2734" VerticalOptions="Center" />
+                <Button Grid.Column="1" Text="Voir le parc" Clicked="OnMaterialsClicked" BackgroundColor="Transparent" TextColor="#DE4A0A" FontSize="11" FontAttributes="Bold" Padding="4,0" />
+            </Grid>
+            <CollectionView ItemsSource="{Binding Mouvements}" HeightRequest="180" EmptyView="Aucun mouvement enregistré.">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MouvementStock">
+                        <Border Margin="0,0,0,8" Padding="10" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding NumeroBon}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" />
+                                <Label Grid.Column="1" Text="{Binding TotalArticles, StringFormat='{0} unités'}" FontSize="11" TextColor="#586B84" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

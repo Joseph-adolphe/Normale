@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ScaffTrack.Shared.Models;assembly=ScaffTrack.Shared"
+             x:Class="ScaffTrack1.Views.Clients.ClientDetailPage"
+             x:DataType="models:Client"
+             Title="Fiche client"
+             BackgroundColor="#F1F3F5">
+    <ScrollView>
+        <VerticalStackLayout Padding="18,16" Spacing="12">
+            <Grid ColumnDefinitions="48,*" ColumnSpacing="10">
+                <Border WidthRequest="44" HeightRequest="44" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="#E8F1F7">
+                    <Label Text="{Binding NomEntreprise, StringFormat='{0:0}'}" FontSize="17" FontAttributes="Bold" TextColor="#28618D" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                </Border>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                    <Label Text="{Binding NomEntreprise}" FontSize="18" FontAttributes="Bold" TextColor="#1B2734" />
+                    <Label Text="Entreprise cliente" FontSize="11" TextColor="#586B84" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Border StrokeThickness="0" StrokeShape="RoundRectangle 8" BackgroundColor="#E7F7EF" Padding="8,5" HorizontalOptions="Start">
+                <Label Text="✓ Entreprise vérifiée" FontSize="10" FontAttributes="Bold" TextColor="#087A50" />
+            </Border>
+
+            <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Contact principal" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding ContactNom}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Téléphone" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding Telephone}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="E-mail" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding Email}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Adresse" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding Adresse, StringFormat='{0}, {1}', TargetNullValue='Adresse non renseignée'}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Encours" FontSize="11" TextColor="#586B84" /><Label Grid.Column="1" Text="{Binding SoldeEncoursFCFA, StringFormat='{0:N0} FCFA'}" FontSize="11" FontAttributes="Bold" TextColor="#1B2734" /></Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="Appeler" Clicked="OnCallClicked" BackgroundColor="#DE4A0A" TextColor="White" FontAttributes="Bold" CornerRadius="9" HeightRequest="44" />
+                <Button Grid.Column="1" Text="Message" Clicked="OnEmailClicked" BackgroundColor="White" TextColor="#1B2734" BorderColor="#D8E0E9" BorderWidth="1" FontAttributes="Bold" CornerRadius="9" HeightRequest="44" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Spacing="4"><Label Text="{Binding Chantiers.Count}" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" /><Label Text="Chantiers actifs" FontSize="10" TextColor="#586B84" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Spacing="4"><Label Text="{Binding Chantiers.Count}" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" /><Label Text="Locations en cours" FontSize="10" TextColor="#586B84" /></VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Label Text="Chantiers du client" FontSize="14" FontAttributes="Bold" TextColor="#1B2734" />
+            <CollectionView ItemsSource="{Binding Chantiers}" EmptyView="Aucun chantier pour ce client.">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Chantier">
+                        <Border Margin="0,0,0,9" Padding="12" BackgroundColor="White" Stroke="#D8E0E9" StrokeShape="RoundRectangle 11">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Nom}" FontSize="13" FontAttributes="Bold" TextColor="#1B2734" />
+                                <Label Text="{Binding Code}" FontSize="10" TextColor="#586B84" />
+                                <Label Text="{Binding TotalPiecesSurChantier, StringFormat='{0} unités sorties'}" FontSize="10" TextColor="#586B84" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

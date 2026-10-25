@@ -4,55 +4,89 @@
              xmlns:vm="clr-namespace:ScaffTrack1.ViewModels.Mouvements"
              x:Class="ScaffTrack1.Views.Mouvements.SortieStockPage"
              x:DataType="vm:SortieStockViewModel"
-             Title="Sortie de Matériel"
-             BackgroundColor="#F4F6F9">
+             Title="Nouvelle location"
+             BackgroundColor="#F1F3F5">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="16">
+        <VerticalStackLayout Padding="16,12" Spacing="12">
+
+            <VerticalStackLayout Spacing="2">
+                <Label Text="{Binding TitreAction}" FontSize="20" FontAttributes="Bold" TextColor="#1B2734" />
+                <Label Text="{Binding NomEtape, StringFormat='Étape 1 sur 3 • {0} et durée'}" FontSize="11" TextColor="#586B84" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*,*">
+                <VerticalStackLayout Spacing="5">
+                    <BoxView HeightRequest="3" BackgroundColor="#DE4A0A" CornerRadius="2" />
+                    <Label Text="Chantier" FontSize="9" FontAttributes="Bold" TextColor="#1B2734" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5" Margin="6,0">
+                    <BoxView HeightRequest="3" BackgroundColor="#D8E0E9" CornerRadius="2" />
+                    <Label Text="Matériel" FontSize="9" TextColor="#586B84" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Spacing="5" Margin="6,0,0,0">
+                    <BoxView HeightRequest="3" BackgroundColor="#D8E0E9" CornerRadius="2" />
+                    <Label Text="Bon de sortie" FontSize="9" TextColor="#586B84" />
+                </VerticalStackLayout>
+            </Grid>
 
             <!-- Sélection du Chantier Destinataire -->
-            <Border StrokeShape="RoundRectangle 14"
+            <Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
-                    Padding="16"
-                    Stroke="#E2E8F0"
+                    Padding="12"
+                    Stroke="#D8E0E9"
                     StrokeThickness="1">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Chantier Destinataire *" FontAttributes="Bold" FontSize="14" TextColor="#1E293B" />
-                    <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E1" BackgroundColor="#F8FAFC" Padding="10,2">
+                    <Label Text="Chantier *" FontAttributes="Bold" FontSize="12" TextColor="#1B2734" />
+                    <Border StrokeShape="RoundRectangle 8" Stroke="#D8E0E9" BackgroundColor="White" Padding="10,0">
                         <Picker ItemsSource="{Binding Chantiers}"
                                 ItemDisplayBinding="{Binding Nom}"
                                 SelectedItem="{Binding SelectedChantier}"
-                                Title="Choisir le chantier..."
-                                TextColor="#0F172A" />
+                                Title="Sélectionner un chantier"
+                                TextColor="#1B2734" />
                     </Border>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding DateMouvementLabel}" FontSize="10" FontAttributes="Bold" TextColor="#1B2734" />
+                            <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="8,0">
+                                <DatePicker Date="{Binding DateSortie}" Format="dd/MM/yyyy" TextColor="#1B2734" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4" IsVisible="{Binding ShowDateReturn}">
+                            <Label Text="Retour prévu *" FontSize="10" FontAttributes="Bold" TextColor="#1B2734" />
+                            <Border Stroke="#D8E0E9" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="8,0">
+                                <DatePicker Date="{Binding DateRetourPrevu}" Format="dd/MM/yyyy" TextColor="#1B2734" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
             </Border>
 
             <!-- Sélection du Matériel & Quantités -->
-            <Border StrokeShape="RoundRectangle 14"
+            <Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
-                    Padding="16"
-                    Stroke="#E2E8F0"
+                    Padding="12"
+                    Stroke="#D8E0E9"
                     StrokeThickness="1">
                 <VerticalStackLayout Spacing="12">
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Text="Matériel à expédier" FontAttributes="Bold" FontSize="15" TextColor="#1E293B" VerticalOptions="Center" />
-                        <Label Grid.Column="1" Text="Stock dispo" FontSize="11" TextColor="#64748B" VerticalOptions="Center" />
+                        <Label Text="{Binding TitreSelectionMateriel}" FontAttributes="Bold" FontSize="14" TextColor="#1B2734" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="Stock dispo" FontSize="10" TextColor="#586B84" VerticalOptions="Center" />
                     </Grid>
 
                     <CollectionView ItemsSource="{Binding MaterielItems}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="vm:MaterielLigneItem">
                                 <Border StrokeShape="RoundRectangle 10"
-                                        BackgroundColor="#F8FAFC"
-                                        Stroke="#E2E8F0"
+                                        BackgroundColor="White"
+                                        Stroke="#D8E0E9"
                                         Padding="12"
                                         Margin="0,0,0,10">
-                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto,Auto">
                                         <VerticalStackLayout Spacing="2">
-                                            <Label Text="{Binding Materiel.Nom}" FontAttributes="Bold" FontSize="14" TextColor="#0F172A" />
-                                            <Label Text="{Binding Materiel.Reference, StringFormat='Réf : {0}'}" FontSize="11" TextColor="#64748B" />
-                                            <Label Text="{Binding Materiel.QuantiteDisponible, StringFormat='Disponible : {0}'}" FontSize="11" TextColor="#10B981" FontAttributes="Bold" />
+                                            <Label Text="{Binding Materiel.Nom}" FontAttributes="Bold" FontSize="13" TextColor="#1B2734" />
+                                            <Label Text="{Binding Materiel.Reference}" FontSize="10" TextColor="#586B84" />
+                                            <Label Text="{Binding Maximum, StringFormat='{0} disponibles'}" FontSize="10" TextColor="#586B84" FontAttributes="Bold" />
                                         </VerticalStackLayout>
 
                                         <!-- Contrôle de quantité +/- -->
@@ -60,31 +94,31 @@
                                                 Grid.RowSpan="2"
                                                 StrokeShape="RoundRectangle 8"
                                                 BackgroundColor="White"
-                                                Stroke="#CBD5E1"
+                                                Stroke="#D8E0E9"
                                                 Padding="4,2"
-                                                VerticalOptions="Center">
+                                                VerticalOptions="Start">
                                             <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                                                <Button Text="-" 
+                                                <Button Text="-"
                                                         Command="{Binding DecrementCommand}"
-                                                        BackgroundColor="#E2E8F0"
-                                                        TextColor="#1E293B"
+                                                        BackgroundColor="#F1F3F5"
+                                                        TextColor="#1B2734"
                                                         FontAttributes="Bold"
                                                         CornerRadius="6"
                                                         WidthRequest="32"
                                                         HeightRequest="32"
                                                         Padding="0" />
 
-                                                <Label Text="{Binding Quantite}" 
-                                                       FontAttributes="Bold" 
-                                                       FontSize="16" 
-                                                       TextColor="#EA580C" 
-                                                       VerticalOptions="Center" 
-                                                       HorizontalTextAlignment="Center" 
+                                                <Label Text="{Binding Quantite}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="16"
+                                                       TextColor="#DE4A0A"
+                                                       VerticalOptions="Center"
+                                                       HorizontalTextAlignment="Center"
                                                        WidthRequest="30" />
 
-                                                <Button Text="+" 
+                                                <Button Text="+"
                                                         Command="{Binding IncrementCommand}"
-                                                        BackgroundColor="#EA580C"
+                                                        BackgroundColor="#DE4A0A"
                                                         TextColor="White"
                                                         FontAttributes="Bold"
                                                         CornerRadius="6"
@@ -93,6 +127,24 @@
                                                         Padding="0" />
                                             </HorizontalStackLayout>
                                         </Border>
+                                        <Grid Grid.Row="1"
+                                              ColumnDefinitions="*,*"
+                                              ColumnSpacing="7"
+                                              Margin="0,8,0,0"
+                                              IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:SortieStockViewModel}}, Path=IsRetour}">
+                                            <VerticalStackLayout Spacing="3">
+                                                <Label Text="Endommagé" FontSize="9" TextColor="#586B84" />
+                                                <Border Padding="5,0" Stroke="#D8E0E9" StrokeShape="RoundRectangle 7" BackgroundColor="White">
+                                                    <Entry Text="{Binding QuantiteEndommagee}" Keyboard="Numeric" FontSize="11" TextColor="#1B2734" />
+                                                </Border>
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                                <Label Text="Perdu" FontSize="9" TextColor="#586B84" />
+                                                <Border Padding="5,0" Stroke="#D8E0E9" StrokeShape="RoundRectangle 7" BackgroundColor="White">
+                                                    <Entry Text="{Binding QuantitePerdue}" Keyboard="Numeric" FontSize="11" TextColor="#1B2734" />
+                                                </Border>
+                                            </VerticalStackLayout>
+                                        </Grid>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -102,13 +154,13 @@
             </Border>
 
             <!-- Réception & Signataire -->
-            <Border StrokeShape="RoundRectangle 14"
+            <Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
-                    Padding="16"
-                    Stroke="#E2E8F0"
+                    Padding="12"
+                    Stroke="#D8E0E9"
                     StrokeThickness="1">
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Informations Réception" FontAttributes="Bold" FontSize="14" TextColor="#1E293B" />
+                    <Label Text="Informations de suivi" FontAttributes="Bold" FontSize="13" TextColor="#1B2734" />
 
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Nom du réceptionnaire" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
@@ -134,15 +186,20 @@
             </Border>
 
             <!-- Bouton Valider -->
-            <Button Text="Valider le Bon de Sortie" 
+            <Border IsVisible="{Binding HasError}" StrokeThickness="0" StrokeShape="RoundRectangle 8" BackgroundColor="#FDECEE" Padding="10">
+                <Label Text="{Binding MessageErreur}" FontSize="11" TextColor="#B4232C" />
+            </Border>
+
+            <Button Text="{Binding TexteValidation}"
                     Command="{Binding ValiderBonSortieCommand}"
-                    BackgroundColor="#EA580C" 
-                    TextColor="White" 
-                    FontAttributes="Bold" 
-                    FontSize="16" 
-                    CornerRadius="10" 
-                    HeightRequest="52" 
-                    Margin="0,6,0,20" />
+                    IsEnabled="{Binding IsNotBusy}"
+                    BackgroundColor="#DE4A0A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="13"
+                    CornerRadius="9"
+                    HeightRequest="46"
+                    Margin="0,0,0,16" />
 
         </VerticalStackLayout>
     </ScrollView>

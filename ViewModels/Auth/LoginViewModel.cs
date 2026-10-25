@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ScaffTrack1.Services;
 using ScaffTrack1.ViewModels.Base;
+using ScaffTrack1.Views.Auth;
 
 namespace ScaffTrack1.ViewModels.Auth;
 
@@ -53,7 +54,8 @@ public partial class LoginViewModel : BaseViewModel
                 _authState.SetSession(
                     nom: result.Nom ?? Email,
                     role: result.Role ?? "Utilisateur",
-                    email: Email
+                    email: Email,
+                    id: result.UtilisateurId == Guid.Empty ? null : result.UtilisateurId
                 );
 
                 // Redirection vers le tableau de bord
@@ -77,7 +79,7 @@ public partial class LoginViewModel : BaseViewModel
     [RelayCommand]
     public async Task MotDePasseOublieAsync()
     {
-        await Shell.Current.DisplayAlert("Mot de passe oublié", "Veuillez contacter votre administrateur pour réinitialiser vos accès.", "OK");
+        await Shell.Current.GoToAsync(nameof(ForgotPasswordPage));
     }
 
     [RelayCommand]

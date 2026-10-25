@@ -7,6 +7,11 @@
     xmlns:viewsDashboard="clr-namespace:ScaffTrack1.Views.Dashboard"
     xmlns:viewsChantiers="clr-namespace:ScaffTrack1.Views.Chantiers"
     xmlns:viewsMateriel="clr-namespace:ScaffTrack1.Views.Materiel"
+    xmlns:viewsLocations="clr-namespace:ScaffTrack1.Views.Locations"
+    xmlns:viewsClients="clr-namespace:ScaffTrack1.Views.Clients"
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarForegroundColor="#DE4A0A"
+    Shell.TabBarUnselectedColor="#65758B"
     Title="ScaffTrack">
 
     <!-- 1. Page de démarrage : Authentification / Connexion -->
@@ -17,25 +22,39 @@
 
     <!-- 2. Application Principale (Barre d'onglets) -->
     <TabBar Route="main">
-        <Tab Title="Dashboard" Icon="home_icon.png">
+        <Tab Title="Accueil" Route="home" Icon="icon_dashboard.svg">
             <ShellContent
-                Title="Dashboard"
+                Title="Accueil"
                 ContentTemplate="{DataTemplate viewsDashboard:DashboardPage}"
                 Route="DashboardPage" />
         </Tab>
 
-        <Tab Title="Matériel" Icon="box_icon.png">
+        <Tab Title="Parc" Route="parc" Icon="icon_material.svg">
             <ShellContent
-                Title="Matériel"
+                Title="Parc"
                 ContentTemplate="{DataTemplate viewsMateriel:MaterielListPage}"
                 Route="MaterielListPage" />
         </Tab>
 
-        <Tab Title="Chantiers" Icon="crane_icon.png">
+        <Tab Title="Chantiers" Route="chantiers" Icon="icon_hardhat.svg">
             <ShellContent
                 Title="Chantiers"
                 ContentTemplate="{DataTemplate viewsChantiers:ChantierListPage}"
                 Route="ChantierListPage" />
+        </Tab>
+
+        <Tab Title="Locations" Route="locations" Icon="icon_clipboard.svg">
+            <ShellContent
+                Title="Locations"
+                ContentTemplate="{DataTemplate viewsLocations:LocationsPage}"
+                Route="LocationsPage" />
+        </Tab>
+
+        <Tab Title="Plus" Route="plus" Icon="icon_menu.svg">
+            <ShellContent
+                Title="Plus"
+                ContentTemplate="{DataTemplate viewsClients:ClientsPage}"
+                Route="ClientsPage" />
         </Tab>
     </TabBar>
 
